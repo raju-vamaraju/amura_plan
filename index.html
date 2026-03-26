@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Amura Wellness Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6f0;
+    --warm: #f5ece0;
+    --green-dark: #2d5a27;
+    --green: #3d7a35;
+    --green-mid: #5a9e50;
+    --green-light: #c8e6c2;
+    --green-pale: #eaf5e8;
+    --amber: #d4722a;
+    --amber-light: #fdf0e6;
+    --teal: #1e7068;
+    --teal-light: #e0f2ef;
+    --text: #2a2318;
+    --text-mid: #5a4d3e;
+    --text-light: #8a7a6a;
+    --border: #e0d5c5;
+    --white: #ffffff;
+    --red-soft: #c0392b;
+    --red-pale: #fdecea;
+    --purple: #6b3fa0;
+    --purple-pale: #f3ecfc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--green-dark);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .logo {
+    font-family: 'Lora', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.5px;
+  }
+  .logo span { color: #a8d5a2; font-style: italic; }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(255,255,255,0.1);
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .nav-tab {
+    padding: 8px 18px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.75);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-tab.active {
+    background: var(--cream);
+    color: var(--green-dark);
+    font-weight: 600;
+  }
+  .nav-tab:hover:not(.active) { color: white; background: rgba(255,255,255,0.15); }
+
+  /* PAGE */
+  .page { display: none; max-width: 1200px; margin: 0 auto; padding: 28px 20px 60px; }
+  .page.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    margin-bottom: 28px;
+  }
+
+  /* WEEK SELECTOR */
+  .week-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .week-btn {
+    padding: 8px 22px;
+    border-radius: 30px;
+    border: 2px solid var(--green);
+    background: transparent;
+    color: var(--green);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .week-btn.active, .week-btn:hover {
+    background: var(--green);
+    color: white;
+  }
+
+  /* MEAL PLAN GRID */
+  .meal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 900px) {
+    .meal-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .meal-grid { grid-template-columns: 1fr; }
+  }
+
+  .day-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .day-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+  .day-header {
+    background: var(--green-dark);
+    color: white;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .day-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+  .day-num {
+    font-family: 'Lora', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .meal-slots { padding: 10px; }
+
+  .meal-slot {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .meal-slot:hover { opacity: 0.85; }
+  .meal-slot:last-child { margin-bottom: 0; }
+
+  .meal-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 8px 2px;
+  }
+  .meal-name {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 3px 8px 5px;
+    line-height: 1.3;
+  }
+  .meal-kcal {
+    font-size: 0.6rem;
+    padding: 0 8px 4px;
+    opacity: 0.7;
+  }
+
+  .slot-breakfast { background: var(--amber-light); }
+  .slot-breakfast .meal-label { background: var(--amber); color: white; }
+  .slot-breakfast .meal-name { color: #7a3d10; }
+
+  .slot-lunch { background: var(--green-pale); }
+  .slot-lunch .meal-label { background: var(--green); color: white; }
+  .slot-lunch .meal-name { color: var(--green-dark); }
+
+  .slot-dinner { background: var(--teal-light); }
+  .slot-dinner .meal-label { background: var(--teal); color: white; }
+  .slot-dinner .meal-name { color: #0e4a44; }
+
+  .slot-snack { background: var(--purple-pale); }
+  .slot-snack .meal-label { background: var(--purple); color: white; }
+  .slot-snack .meal-name { color: #3d1a6e; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 18px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .modal-head {
+    background: var(--green-dark);
+    color: white;
+    padding: 20px 24px;
+    border-radius: 18px 18px 0 0;
+    position: relative;
+  }
+  .modal-phase {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .modal-title {
+    font-family: 'Lora', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .modal-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.75;
+    margin-top: 3px;
+    font-style: italic;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-body { padding: 20px 24px; }
+  .modal-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-pill {
+    background: var(--green-pale);
+    border: 1px solid var(--green-light);
+    border-radius: 8px;
+    padding: 8px 14px;
+    text-align: center;
+    flex: 1;
+  }
+  .stat-val { font-size: 1.1rem; font-weight: 700; color: var(--green-dark); }
+  .stat-lbl { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-light); }
+
+  .modal-section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    margin-top: 16px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ingredients-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .ingredient-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--warm);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+  }
+  .ingredient-name { color: var(--text); }
+  .ingredient-qty { color: var(--amber); font-weight: 600; font-size: 0.75rem; }
+  .method-text {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text-mid);
+  }
+  .method-step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .step-num {
+    background: var(--green);
+    color: white;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* RECIPE PAGE */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .filter-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-mid);
+    transition: all 0.15s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    border-color: var(--green);
+    color: var(--green-dark);
+    background: var(--green-pale);
+    font-weight: 600;
+  }
+
+  .recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .recipe-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .recipe-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .recipe-card-top {
+    padding: 14px 16px 10px;
+  }
+  .recipe-phase-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .tag-ce { background: var(--green-light); color: var(--green-dark); }
+  .tag-v1 { background: var(--teal-light); color: var(--teal); }
+  .tag-v2 { background: #dde8f5; color: #1a4a8a; }
+  .tag-v5 { background: var(--purple-pale); color: var(--purple); }
+  .tag-v6 { background: #f0e8f5; color: #5a1a8a; }
+
+  .recipe-card-name {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+  .recipe-card-sub {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    font-style: italic;
+  }
+  .recipe-card-footer {
+    padding: 8px 16px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .recipe-kcal { font-size: 0.78rem; font-weight: 600; color: var(--amber); }
+  .recipe-serv { font-size: 0.72rem; color: var(--text-light); }
+  .recipe-view-btn {
+    font-size: 0.7rem;
+    color: var(--green);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  /* PHASE GUIDE */
+  .phase-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .phase-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .phase-card-head {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .phase-badge {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+  .phase-card-title { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 700; }
+  .phase-card-sub { font-size: 0.75rem; color: var(--text-mid); }
+  .phase-card-body { padding: 14px 18px; background: white; }
+  .phase-bullet {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-size: 0.8rem;
+    color: var(--text-mid);
+    line-height: 1.4;
+  }
+  .phase-bullet::before {
+    content: '•';
+    color: var(--green);
+    font-size: 1rem;
+    margin-top: -1px;
+    flex-shrink: 0;
+  }
+
+  .avoid-section {
+    background: var(--red-pale);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .avoid-title {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--red-soft);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .avoid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px;
+  }
+  .avoid-item {
+    background: white;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    color: var(--red-soft);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .avoid-item::before { content: '✕'; font-size: 0.6rem; font-weight: 700; }
+
+  .oils-section {
+    background: var(--green-pale);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .oils-title {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+  }
+  .oils-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .oil-chip {
+    background: white;
+    border: 1.5px solid var(--green-light);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--green-dark);
+    font-weight: 500;
+  }
+
+  .challenge-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    margin-bottom: 20px;
+  }
+  .challenge-table th {
+    text-align: left;
+    font-size: 0.7rem;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    padding: 6px 12px;
+  }
+  .challenge-table td {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    background: white;
+    border: 1px solid var(--border);
+  }
+  .challenge-table td:first-child { border-radius: 8px 0 0 8px; font-weight: 600; }
+  .challenge-table td:last-child { border-radius: 0 8px 8px 0; color: var(--green-dark); }
+
+  .craving-tips {
+    background: var(--amber-light);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .craving-title { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 700; color: var(--amber); margin-bottom: 10px; }
+  .craving-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .craving-item {
+    background: white;
+    border: 1px solid #f5dcc0;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    color: var(--text-mid);
+  }
+
+  /* NI 7-DAY PLAN */
+  .ni-day-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 22px; padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+  }
+  .ni-day-num {
+    font-family: 'Lora', serif;
+    font-size: 3.5rem; font-weight: 700;
+    color: var(--green-light); line-height: 1;
+  }
+  .ni-day-info h3 { font-family: 'Lora', serif; font-size: 1.4rem; color: var(--green-dark); font-weight: 700; }
+  .ni-day-info p { font-size: 0.82rem; color: var(--text-mid); margin-top: 3px; font-style: italic; }
+
+  .ni-timeline { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+
+  .ni-meal-row {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .ni-time-col {
+    flex-shrink: 0; width: 70px; text-align: right; padding-top: 12px;
+  }
+  .ni-time-label {
+    font-size: 0.7rem; font-weight: 700; color: var(--text-light);
+    letter-spacing: 0.5px; line-height: 1.3;
+  }
+  .ni-connector {
+    flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 14px;
+  }
+  .ni-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--green); border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--green-light); flex-shrink: 0;
+  }
+  .ni-dot.dot-snack { background: var(--purple); box-shadow: 0 0 0 2px var(--purple-pale); }
+  .ni-dot.dot-drink { background: var(--teal); box-shadow: 0 0 0 2px var(--teal-light); }
+  .ni-line { flex: 1; width: 2px; background: var(--border); margin-top: 4px; min-height: 20px; }
+
+  .ni-meal-card {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+  }
+  .ni-meal-type {
+    font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 6px;
+  }
+  .ni-meal-items { display: flex; flex-wrap: wrap; gap: 7px; }
+  .ni-item {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.8rem; font-weight: 500;
+    padding: 5px 12px; border-radius: 20px;
+    background: var(--green-pale); color: var(--green-dark);
+    border: 1px solid var(--green-light);
+  }
+  .ni-item.clickable {
+    cursor: pointer; transition: all 0.15s;
+    background: var(--green-pale);
+  }
+  .ni-item.clickable:hover {
+    background: var(--green); color: white;
+    border-color: var(--green);
+    transform: translateY(-1px);
+  }
+  .ni-item.plain { background: var(--warm); color: var(--text-mid); border-color: var(--border); }
+  .ni-item.snack-item { background: var(--purple-pale); color: var(--purple); border-color: #d8c4f0; }
+  .ni-item.drink-item { background: var(--teal-light); color: var(--teal); border-color: #b0ddd9; }
+
+  /* FOOTER NOTE */
+  .footer-note {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.75rem;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">Amura <span>Wellness</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showPage('plan')">📅 Meal Plan</button>
+      <button class="nav-tab" onclick="showPage('niplan')">🥚 NI 7-Day Plan</button>
+      <button class="nav-tab" onclick="showPage('recipes')">🥘 Recipes</button>
+      <button class="nav-tab" onclick="showPage('guide')">📋 Phase Guide</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MEAL PLAN PAGE ===== -->
+<div id="page-plan" class="page active">
+  <div class="section-title">2-Week Meal Plan</div>
+  <div class="section-sub">Official CE Phase Meal Plan from Swetha (Amura) · Click any meal to see the full recipe</div>
+  <div class="week-selector">
+    <button class="week-btn active" onclick="showWeek(1, this)">Week 1</button>
+    <button class="week-btn" onclick="showWeek(2, this)">Week 2</button>
+  </div>
+  <div id="week1" class="meal-grid"></div>
+  <div id="week2" class="meal-grid" style="display:none"></div>
+  <p class="footer-note">🌿 All meals are CE Phase (Clean Eating) approved · Protein powder, chia seeds & psyllium husk as directed by your program manager · Consult Swetha for any adjustments</p>
+</div>
+
+<!-- ===== RECIPES PAGE ===== -->
+<div id="page-recipes" class="page">
+  <div class="section-title">Recipe Reference</div>
+  <div class="section-sub">All Amura CE & other phase recipes from your cookbook</div>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterRecipes('all', this)">All Recipes</button>
+    <button class="filter-btn" onclick="filterRecipes('CE', this)">CE Phase</button>
+    <button class="filter-btn" onclick="filterRecipes('V1', this)">V1 Detox</button>
+    <button class="filter-btn" onclick="filterRecipes('V2', this)">V2+</button>
+    <button class="filter-btn" onclick="filterRecipes('breakfast', this)">Breakfast</button>
+    <button class="filter-btn" onclick="filterRecipes('lunch', this)">Lunch/Dinner</button>
+    <button class="filter-btn" onclick="filterRecipes('drinks', this)">Drinks &amp; Snacks</button>
+    <button class="filter-btn" onclick="filterRecipes('soup', this)">Soups</button>
+    <button class="filter-btn" onclick="filterRecipes('egg', this)">🥚 Egg Dishes</button>
+  </div>
+  <div id="recipes-grid" class="recipes-grid"></div>
+</div>
+
+<!-- ===== GUIDE PAGE ===== -->
+<div id="page-guide" class="page">
+  <div class="section-title">Protocol Guide</div>
+  <div class="section-sub">Your complete Amura CE phase reference</div>
+
+  <div class="avoid-section">
+    <div class="avoid-title">🚫 Foods to AVOID in CE Phase</div>
+    <div class="avoid-grid" id="avoid-grid"></div>
+  </div>
+
+  <div class="oils-section">
+    <div class="oils-title">🫙 Approved Cooking Oils</div>
+    <div class="oils-grid">
+      <span class="oil-chip">Ghee</span><span class="oil-chip">Butter</span>
+      <span class="oil-chip">Olive Oil</span><span class="oil-chip">Coconut Oil</span>
+      <span class="oil-chip">Sesame Oil</span><span class="oil-chip">Mustard Oil</span>
+      <span class="oil-chip">Avocado Oil</span>
+    </div>
+  </div>
+
+  <div class="section-title" style="font-size:1.2rem; margin-bottom:12px;">⚠️ Possible Early Challenges</div>
+  <table class="challenge-table">
+    <thead><tr><th>Challenge</th><th>Symptoms</th><th>Remedy</th></tr></thead>
+    <tbody>
+      <tr><td>Carb Withdrawal</td><td>Mild headache, tiredness</td><td>Lime juice with salt (avoid salt if hypertensive)</td></tr>
+      <tr><td>Bowel Changes</td><td>Irregular movements</td><td>Adjusts naturally in a couple of days</td></tr>
+      <tr><td>Sleep Pattern</td><td>Delayed sleep onset</td><td>Settles on its own soon</td></tr>
+      <tr><td>Light Body Pain</td><td>Mild aches</td><td>Take 1 tablespoon of ghee</td></tr>
+    </tbody>
+  </table>
+
+  <div class="craving-tips" style="margin-bottom:24px; background: #e3f2fd; border-left: 4px solid #1565c0;">
+    <div class="craving-title" style="color:#1565c0;">⏰ Daily Eating Schedule</div>
+    <div class="craving-list">
+      <span class="craving-item">7:00 AM — Black Tea / Coffee / Green Tea (no sugar)</span>
+      <span class="craving-item">9:00 AM — Breakfast</span>
+      <span class="craving-item">11:00 AM — Mid-morning Snack</span>
+      <span class="craving-item">1:00 PM — Lunch</span>
+      <span class="craving-item">5:00 PM — Evening Snack</span>
+      <span class="craving-item">7:00 PM — Dinner</span>
+    </div>
+    <div style="font-size:0.75rem; color:#444; margin-top:10px; font-style:italic;">12-hour eating window · 3 litres water/day · Protein-rich or low-carb dinner · 7–9 hours sleep</div>
+  </div>
+    <div class="craving-list">
+      <span class="craving-item">🪥 Brush your teeth</span>
+      <span class="craving-item">🌿 Chew a clove or cardamom</span>
+      <span class="craving-item">🎯 Distract yourself</span>
+      <span class="craving-item">🚶 Take a short walk</span>
+      <span class="craving-item">🥚 Don't skip protein</span>
+    </div>
+  </div>
+
+  <div class="section-title" style="font-size:1.2rem; margin-bottom:14px;">🗺️ Full Protocol Roadmap</div>
+  <div class="phase-guide-grid" id="phase-guide-grid"></div>
+
+  <p class="footer-note">📌 90-day subscription begins from Day 1 of Clean Eating · Renew monthly after that · Always consult Swetha before making changes</p>
+</div>
+
+<!-- ===== NI 7-DAY EGGETARIAN PLAN PAGE ===== -->
+<div id="page-niplan" class="page">
+  <div class="section-title">NI Clean Eating — 7-Day Eggetarian Plan</div>
+  <div class="section-sub">Full daily schedule with timed meals · Click any recipe to see full details</div>
+
+  <div style="background:#e3f2fd; border-left:4px solid #1565c0; border-radius:10px; padding:14px 18px; margin-bottom:22px; font-size:0.85rem; color:#333; line-height:1.7;">
+    <strong style="color:#1565c0;">📌 Daily Rules:</strong>
+    &nbsp;⏱ 12-hour eating window &nbsp;·&nbsp; 💧 3 litres water/day &nbsp;·&nbsp; 🌙 Protein-rich or low-carb dinner &nbsp;·&nbsp; 😴 7–9 hours sleep &nbsp;·&nbsp; 🚫 No peanuts or cashews
+  </div>
+
+  <!-- Day Selector -->
+  <div class="week-selector" id="ni-day-selector" style="margin-bottom:20px;"></div>
+
+  <!-- Day Panels (built by JS) -->
+  <div id="ni-day-content"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-phase" id="modal-phase">CE</div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-subtitle" id="modal-subtitle"></div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats" id="modal-stats"></div>
+      <div class="modal-section-title">Ingredients</div>
+      <div class="ingredients-grid" id="modal-ingredients"></div>
+      <div class="modal-section-title" style="margin-top:16px;">Method</div>
+      <div id="modal-method"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const RECIPES = [
+  { id: 'namkeen-chawal', name: 'Namkeen Chawal', sub: 'Rich Source Of Dietary Fibres', phase: 'CE', cat: ['lunch'], kcal: 460, serv: 3, carb: '89g', prot: '12g', fat: '6g',
+    ingredients: [['Basmati rice','1 cup'],['Sliced onion','1 no'],['Cumin','1 tsp'],['Bay leaf','1 no'],['Cloves','4 no'],['Potato','1 no'],['Green peas','1/4 cup'],['Carrot','1 no'],['Pepper powder','1 tsp'],['Lemon juice','1/2 no'],['Slit green chilli','1 no'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Heat ghee and sauté all the whole spices, then onion.','Add diced vegetables and sauté for 5 minutes along with green chilli.','Season with pepper and salt.','Next add rice and stir everything for 2-3 minutes, add enough water to boil vegetables and rice.','When it starts boiling add salt and lemon juice.','Enjoy with raita.'] },
+
+  { id: 'coriander-mint-potatoes', name: 'Coriander Mint Potatoes', sub: 'Rich Source Of Fiber And Nutrients', phase: 'CE', cat: ['lunch','dinner'], kcal: 336, serv: 2, carb: '57g', prot: '8g', fat: '7g',
+    ingredients: [['Potato','2 no'],['Mint leaves','4 sprigs'],['Coriander leaves','1/4 tbsp'],['Green chilli','1 no'],['Ginger','1/2 inch'],['Almonds','2 no'],['Cumin','1 tsp'],['Ghee','1 tsp'],['Lemon juice','1/2 no'],['Salt','to taste']],
+    method: ['Dice and fry potatoes in a tawa by brushing some ghee.','Blend coriander, mint, green chillies, cashews, ginger and cumin along with some water.','Heat ghee in a pan, add the above mix and potatoes.','Mix and fry everything for 5 minutes.','Squeeze half of lemon juice and enjoy.'] },
+
+  { id: 'sabudana-coconut-dosa', name: 'Sabudana Coconut Dosa', sub: 'Gluten Free', phase: 'CE', cat: ['breakfast'], kcal: 299, serv: 2, carb: '64g', prot: '3g', fat: '3g',
+    ingredients: [['Idli rice','200 gm'],['Grated coconut','2 tbsp'],['Sabudana','40 gm'],['Baking soda','1/2 tsp'],['Salt','to taste']],
+    method: ['Soak idli rice and sabudana separately in water for 6 hours.','Grind sabudana, rice and grated coconut together to form a smooth batter.','Add water if required. Transfer into a large bowl and cover.','Keep for fermentation for 6-8 hours depending upon the climate.','Add salt and baking soda.','Pour 1 ladle of dosa batter onto tawa and make soft dosas. Serve hot.'] },
+
+  { id: 'healthy-poha-salad', name: 'Healthy Poha Salad', sub: 'Good Source Of Carbohydrates And Iron', phase: 'CE', cat: ['breakfast','lunch'], kcal: 390, serv: 2, carb: '81g', prot: '12g', fat: '20g',
+    ingredients: [['Flattened rice/poha','50 gm'],['Walnut','2 no'],['Shredded coconut','2 tbsp'],['Cucumber','1/2 no'],['Onion','1/2 no'],['Green chilli','1 no'],['Lemon','1 tsp'],['Ginger','1 tsp'],['Coriander leaves','2 sprigs'],['Mustard seeds','1 tsp'],['Curry leaves','1 sprig'],['Cumin seeds','1 tsp'],['Coconut oil','1 tsp'],['Salt','to taste']],
+    method: ['Soak poha for few minutes and transfer into a wide bowl.','Add freshly grated coconut and close the bowl for some minutes.','After few minutes, add chopped cucumber, tomatoes, onion, chopped pecan nuts, coriander leaves.','In a tempering pan, heat coconut oil, splutter mustard seeds, curry leaves and cumin seeds, chopped ginger and green chillies.','Add this tempering to the salad bowl and mix well.','Season with salt and squeeze some lemon juice. Enjoy.'] },
+
+  { id: 'ragi-roti', name: 'Ragi Roti', sub: 'Gluten Free & Rich In Antioxidants', phase: 'CE', cat: ['breakfast','lunch'], kcal: 195, serv: 1, carb: '43g', prot: '5g', fat: '1g',
+    ingredients: [['Ragi flour','50 g'],['Onion chopped','1/2 no'],['Grated carrots','20 g'],['Coriander leaves chopped','1 tbs'],['Salt and water','to taste']],
+    method: ['Mix all the ingredients together to a cookie dough consistency.','Make balls out of it, and hand spread them on a sheet, until they are evenly spread.','Tawa toast them on both the sides and serve with choice of chutney. Enjoy.'] },
+
+  { id: 'healthy-jhal-muri', name: 'Healthy Jhal Muri', sub: 'Good Source Of Carbohydrate', phase: 'CE', cat: ['breakfast','snack'], kcal: 272, serv: 2, carb: '53g', prot: '6g', fat: '5g',
+    ingredients: [['Puffed rice','15 gm (1 cup)'],['Dry coconut','2 tbsp'],['Green chilli','2 no'],['Boiled potato','1/2 no'],['Tomato','1 no'],['Cucumber','1/2 no'],['Onion','1 no'],['Lemon juice','1 no'],['Cumin seeds','1 tsp'],['Coriander seeds','1 tsp'],['Fennel seeds','1 tsp'],['Green cardamom','2 no'],['Black salt','to taste']],
+    method: ['Heat a pan, add cumin seeds, fennel seeds, coriander seeds and green cardamom. Fry on medium flame for 2 minutes and powder into a very smooth powder. This is bhaja masala.','Take a big vessel, add puffed rice, dry coconut pieces, green chilli, chopped onion, chopped tomato, chopped cucumber, bhaja masala, mustard oil, lemon juice and black salt.','Mix everything well with a spoon and enjoy.'] },
+
+  { id: 'all-veg-american-chopsuey', name: 'All Veg American Chopsuey', sub: 'Rich In Nutrition & Vitamins', phase: 'CE', cat: ['lunch','dinner'], kcal: 316, serv: 1, carb: '52g', prot: '12g', fat: '13g',
+    ingredients: [['Zucchini','1 cup'],['Egg plant','100 g'],['Minced garlic','2 tbs'],['Italian seasoning','2 tsp'],['Oregano','2 tsp'],['Onions finely chopped','1 no'],['Carrots grated','1 no'],['Jalapeno/big green chilly','1 no'],['Tomatoes','3 no'],['Basil','100 g'],['Chilly flakes','1 tbs'],['Olive oil','1/2 tbs'],['Salt and pepper','to taste']],
+    method: ['Zucchini noodles: Spiralize zucchini and toss with olive oil, salt, and pepper. Sauté for one minute.','Eggplant: Cut into circles, soak in salt water. Rub with salt, minced garlic, oregano, and Italian seasoning. Sauté in olive oil.','Pasta sauce: In a big pot, sauté onions and carrots, add minced garlic and finely chopped jalapeno. Add diced tomatoes. Let sauce come to boil. Add chopped basil, oregano, salt, chilly flakes, and Italian seasoning. Simmer for five minutes.','Assemble the plate and enjoy.'] },
+
+  { id: 'sprouted-lentil-fitters', name: 'Sprouted Lentil Fitters', sub: 'Nutrition Rich', phase: 'CE', cat: ['snack'], kcal: 132, serv: 1, carb: '10g', prot: '4g', fat: '9g',
+    ingredients: [['Sprouted Red lobia','1/4 cup'],['Sprouted butter beans','1/4 cup'],['Sprouted horse gram','1/4 cup'],['Cumin seeds','1 tsp'],['Dry chilly','1 no'],['Coconut oil','2 tsp'],['Salt','to taste']],
+    method: ['Soak the lentils overnight and allow them to sprout.','Coarsely grind the sprouted lentils with cumin, chilly and salt. Make patties with the grounded mixture.','In a pan, add coconut oil and shallow fry the patties until brown on both sides. Enjoy hot.'] },
+
+  { id: 'sprouted-horse-gram', name: 'Sprouted Horse Gram', sub: 'Loaded With Nutrients', phase: 'CE', cat: ['breakfast','dinner'], kcal: 92, serv: 1, carb: '7g', prot: '3g', fat: '7g',
+    ingredients: [['Sprouted horse gram','1 cup'],['Coconut grated','2 tbs'],['Onion','1 no'],['Chilly','1 no'],['Curry leaves','6 no'],['Mustard seeds','1/2 tsp'],['Ghee','1/2 tsp'],['Salt','to taste']],
+    method: ['Soak the horse gram overnight and let it sprout.','In a pan, add ghee, mustard seeds and curry leaves. Once the mustard splutters, add the onions and sauté well.','Once onions are cooked, add the sprouted horse gram and sauté for about 5 mins.','Adjust salt and add the grated coconut, give it a nice mix and serve hot.'] },
+
+  { id: 'sprouted-moong-saute', name: 'Sprouted Moong Sauté', sub: 'Loaded With Nutrients', phase: 'CE', cat: ['breakfast','dinner'], kcal: 88, serv: 1, carb: '7g', prot: '3g', fat: '6g',
+    ingredients: [['Sprouted green moong dal','1 cup'],['Coconut grated','2 tbs'],['Onion','1 no'],['Chilly','1 no'],['Curry leaves','6 no'],['Mustard seeds','1/2 tsp'],['Ghee','1/2 tsp'],['Salt','to taste']],
+    method: ['Soak the moong dal overnight and let it sprout.','In a pan, add ghee, mustard seeds and curry leaves. Once the mustard splutters, add the onions and sauté well.','Once onions are cooked, add the sprouted dal and sauté for about 5 mins.','Adjust salt and add the grated coconut, give it a nice mix and serve hot.'] },
+
+  { id: 'quinoa-upma', name: 'Quinoa Upma', sub: 'Fiber Rich & Nutritious', phase: 'CE', cat: ['breakfast'], kcal: 258, serv: 1, carb: '44g', prot: '9g', fat: '6g',
+    ingredients: [['Quinoa','1/4 cup'],['Green peas','15 g'],['Ghee','1/2 tsp'],['Carrot','15 g'],['Mustard seeds','1 tsp'],['Curry leaves','5 no'],['Ginger minced','1 tsp'],['Dry chilly','1 no'],['Coriander leaves chopped','1 tbs'],['Onion finely chopped','1 no'],['Turmeric','1/2 tsp'],['Salt','to taste']],
+    method: ['Wash the Quinoa well and soak it for an hour.','In a pan, add ghee, mustard seeds and curry leaves. Once the mustard seeds crackle, add ginger, chilly and onion, sauté well.','Now add the peas and carrots and sauté for 2-3 min. Add the quinoa, salt and turmeric and sauté for a min.','Add water at 1:2 ratio, close the lid and simmer the stove. Once the quinoa is cooked, garnish with coriander. Enjoy hot.'] },
+
+  { id: 'oats-porridge', name: 'Oats Porridge', sub: 'Rich In Fiber', phase: 'CE', cat: ['breakfast'], kcal: 306, serv: 1, carb: '46g', prot: '13g', fat: '12g',
+    ingredients: [['Gluten free oats','1/2 cup'],['Sprouted Moong dal','1/2 cup'],['Onion finely chopped','1 no'],['Tomato finely chopped','1 no'],['Turmeric','1/2 tsp'],['Cinnamon stick','1 inch'],['Cloves','2 no'],['Star anise','1 no'],['Bay leaf','1 no'],['Ghee','1 tsp'],['Chilly','1 no'],['Coconut milk','1/4 cup'],['Ginger garlic paste','1/2 tbs'],['Salt','to taste']],
+    method: ['In a pressure cooker, add ghee, cinnamon stick, cloves, star anise and bay leaf. Then add in the onions and sauté until the onions are transparent. Then add the tomatoes, chilly, turmeric and ginger garlic paste, sauté well.','Now add in the moong dal and oats, add water and close the lid, and let it pressure cook until two whistles.','Once the pressure is released, remove the lid, add fresh coconut milk, let it simmer for about a min and turn off the flame. Enjoy hot.'] },
+
+  { id: 'okra-oats-pulao', name: 'Okra Oats Pulao', sub: 'Gluten Free & Rich In Antioxidants', phase: 'CE', cat: ['lunch'], kcal: 339, serv: 1, carb: '50g', prot: '14g', fat: '13g',
+    ingredients: [['Gluten free oats','50 g'],['Okra chopped','50 g'],['Onion','1 no'],['Tomato','1 no'],['Clove','1 no'],['Cinnamon stick','1 inch'],['Star anise','1 no'],['Pumpkin seeds','1/2 tbs'],['Ginger garlic paste','1 tsp'],['Ghee','1 tsp'],['Turmeric powder','1 tsp'],['Chilly powder','1/2 tsp'],['Coriander powder','1 tsp'],['Salt and pepper','to taste']],
+    method: ['Soak oats in water for 10 min, drain the water and keep aside.','Pan roast pumpkin seeds and okra in 1/2 tsp ghee, salt and pepper. Once crispy, keep it aside.','Heat the tawa, add ghee, clove, cinnamon, star anise and onions, sauté until the onions are caramelized. Now add ginger garlic paste, finely chopped tomatoes, turmeric, coriander powder, chilly powder and salt and let it cook through.','Once the gravy is done, add the oats and mix well. Then add the okra, pumpkin seed fry and mix it along. Serve hot.'] },
+
+  { id: 'pumpkin-sambar', name: 'Pumpkin Sambar', sub: 'Rich In Nutrients', phase: 'CE', cat: ['lunch','dinner'], kcal: 394, serv: 3, carb: '58g', prot: '9g', fat: '12g',
+    ingredients: [['Pumpkin','100 gm'],['Onion','1 no'],['Tomato','2 no'],['Shallots','3 no'],['Grated coconut','3 tbsp'],['Tamarind pulp','1 tbsp'],['Garlic','4 no'],['Cumin seeds','1 tsp'],['Coriander seeds','5 tsp'],['Fenugreek seeds','1/4 tsp'],['Dry red chilli','5 no'],['Asafetida','1/2 tsp'],['Turmeric powder','1 tsp'],['Curry leaves','2 sprigs'],['Mustard seeds','1 tsp'],['Coconut oil','2 tsp'],['Salt','to taste']],
+    method: ['Boil chopped pumpkin with salt and turmeric powder and little water. Mash them nicely.','In a kadai, add coriander seeds, fenugreek seeds, dry red chilli, cumin seeds and curry leaves. Sauté for few minutes, add shallots, garlic and grated coconut. Sauté till coconut turns brown in color. Grind into a very fine paste by adding little water.','Heat some coconut oil in a kadai, sauté onion and tomatoes. Add turmeric powder. Add tamarind pulp, water and cook for 5 minutes. Add mashed pumpkin and cook for 2 minutes. Then add grinder sambar masala along with hing and salt. Add water and cook for 10 minutes.','Temper with coconut oil, mustard seeds, curry leaves. Serve hot and enjoy.'] },
+
+  { id: 'no-dal-sambar', name: 'No Dal Sambar', sub: 'Rich In Nutrients', phase: 'CE', cat: ['lunch','dinner'], kcal: 478, serv: 3, carb: '72g', prot: '13g', fat: '14g',
+    ingredients: [['Onion','1 no'],['Tomato','2 no'],['Shallots','20 no'],['Tamarind pulp','1 tbsp'],['Garlic','4 no'],['Grated coconut','3 tbsp'],['Cumin seeds','1 tsp'],['Coriander seeds','5 tsp'],['Dry red chilli','5 no'],['Fenugreek seeds','1/4 tsp'],['Curry leaves','2 sprigs'],['Asafetida powder','1/2 tsp'],['Turmeric powder','1 tsp'],['Mustard seeds','1 tsp'],['Coriander leaves','2 sprigs'],['Salt','to taste']],
+    method: ['In a kadai, add coriander seeds, fenugreek seeds, dry red chilli, cumin seeds and curry leaves. Sauté for few minutes, add shallots, garlic and grated coconut. Sauté till coconut turns brown in color. Grind into a very fine paste after the above mix cools down.','In another kadai, heat some coconut oil, sauté chopped onion, shallots and chopped tomatoes. Add turmeric powder. Cook till onions and tomatoes are soft and mushy, mash them gently. Add tamarind pulp, water and cook for 2 minutes. Then add grinded coconut paste along with asafetida and salt. Add water if required. Let the gravy simmer for 10 minutes.','In a tempering pan, heat coconut oil, splutter mustard seeds and curry leaves. Add this to sambar and serve hot.'] },
+
+  { id: 'tari-wale-aloo', name: 'Tari Wale Aloo', sub: 'Packed With Antioxidants', phase: 'CE', cat: ['lunch'], kcal: 348, serv: 2, carb: '62g', prot: '11g', fat: '8g',
+    ingredients: [['Potatoes','2 no'],['Tomato','2 no'],['Ginger','1 tsp'],['Chopped green chilli','1 no'],['Mustard seeds','1 tsp'],['Cumin','1/2 tsp'],['Hing','1/2 tsp'],['Kasurimethi','1/2 tsp'],['Turmeric powder','1/2 tsp'],['Red chili powder','1/2 tsp'],['Coriander powder','1/2 tsp'],['Water','1 cup'],['Coriander leaves','1 sprig'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Heat ghee in a kadai, splutter mustard seeds and cumin seeds with hing.','Add ginger and green chilli.','Add turmeric powder, chilli powder and coriander powder.','Add tomato puree, cook till oil separates then add boiled potatoes.','Make a curry by adding water and season with salt.','At last garnish with some crushed kasurimethi and coriander leaves. Serve hot and enjoy.'] },
+
+  { id: 'rice-matar-fare', name: 'Rice Matar Fare', sub: 'Rich Source Of Fiber And Nutrients', phase: 'CE', cat: ['lunch'], kcal: 402, serv: 3, carb: '79g', prot: '11g', fat: '2g',
+    ingredients: [['Rice flour','1/2 cup'],['Water','1/4 cup'],['Matar/green peas','150 gm'],['Green chilli','1 no'],['Ginger','1/2 inch'],['Chopped coriander leaves','2 tbsp'],['Cumin','1 tsp'],['Garlic','2 cloves'],['Hing','1/4 tsp'],['Salt','to taste']],
+    method: ['Heat water along with salt, when it starts to boil lower the flame and add rice flour.','Mix thoroughly to form a dough, knead for 5 minutes.','Make a coarse mixture by grinding green peas, green chilli, ginger, garlic, cumin, hing and salt. Add chopped coriander leaves and mix.','Make small balls out of rice dough, flatten with your hands, place the filling inside and close it.','Steam all the fare in a steamer for 15 minutes. Serve hot.'] },
+
+  { id: 'ragi-veggie-cheela', name: 'Ragi Veggie Cheela', sub: 'Rich Source Of Fiber And Nutrients', phase: 'CE', cat: ['breakfast'], kcal: 208, serv: 2, carb: '39g', prot: '6g', fat: '1g',
+    ingredients: [['Ragi powder','1/2 cup'],['Grated carrot','1 tbsp'],['Chopped onion','1 tbsp'],['Coconut yogurt','1/2 tbsp'],['Chopped green chili','1 no'],['Water','as needed'],['Salt','to taste']],
+    method: ['In a bowl, mix ragi powder, and salt first.','Add all other veggies and yogurt.','Add required amount of water to make a smooth batter.','Make cheelas with few drops of oil (optional).','Enjoy with chutney.'] },
+
+  { id: 'palak-methi-saag', name: 'Palak Methi Saag', sub: 'Strengthens Bones & Immune System', phase: 'CE', cat: ['lunch','dinner'], kcal: 212, serv: 2, carb: '21g', prot: '7g', fat: '6g',
+    ingredients: [['Chopped spinach','1 cup'],['Chopped methi','1/2 cup'],['Finely chopped ginger','1 tsp'],['Chopped green chilli','1 tsp'],['Finely chopped onion','1/2 cup'],['Finely chopped garlic','2 tsp'],['Dry red chilli','2 no'],['Mustard seeds','1 tsp'],['Cumin seeds','1 tsp'],['Hing','1/4 tsp'],['Water','1 cup'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Finely chop methi and spinach and boil them until well cooked and then puree them.','Heat ghee, splutter mustard seeds and cumin seeds.','Add red chilli and then start sautéing ginger, garlic, green chilli and onion.','Add the puree and water to adjust consistency.','Check for salt and add hing.','Enjoy with roti.'] },
+
+  { id: 'no-dal-rice-idlis', name: 'No Dal Rice Idlis', sub: 'Easy On Digestive System', phase: 'CE', cat: ['breakfast'], kcal: 706, serv: 5, carb: '156g', prot: '16g', fat: '1g',
+    ingredients: [['Idli rice','100 gm'],['Raw rice','100 gm'],['Fenugreek','2 tsp'],['Salt','to taste']],
+    method: ['Wash and soak fenugreek and idli rice for 6 hours or overnight.','For idli rava: Wash and soak raw rice for 6 hours, then shadow dry it by spreading in a cloth for 3-4 hours. Pulse it in the food processor to get a rava/semolina like texture.','Grind the fenugreek separately to fine paste with water.','In a bowl, add idli rava, idli rice batter, fenugreek paste and salt. Mix well with your hands. Let it ferment for 12-14 hours.','Steam for 15 minutes and serve hot. You can also make dosas with the same batter.'] },
+
+  { id: 'thai-salad', name: 'Thai Salad', sub: 'Good Source Of Fiber', phase: 'CE', cat: ['lunch','dinner'], kcal: 215, serv: 2, carb: '30g', prot: '3g', fat: '8g',
+    ingredients: [['Mango','1/2 no'],['Red bell pepper','1/2 no'],['Purple cabbage shredded','50 gms'],['Raw papaya','50 gms'],['Carrot','1 no'],['Spring onion','2 tbsp'],['Coconut aminos','1 tbsp'],['Mint leaves','few'],['Lemon juice','2 tsp'],['Toasted sesame','1 tbsp'],['Garlic','1 tsp'],['Ginger','2 tsp'],['Sesame oil','1/2 tbsp'],['Salt','to taste']],
+    method: ['For salad dressing: In a bowl, add chopped ginger, chopped garlic, lemon juice, and sesame oil.','Now into the bowl, add shredded cabbage, julienned carrots, sliced bell pepper, chopped spring onion, mint leaves, chopped mango, chopped papaya.','Season with some salt.','Mix everything well and add toasted sesame seeds at the time of serving.'] },
+
+  { id: 'black-rice-pudding', name: 'Black Rice Pudding', sub: 'Rich In Antioxidants', phase: 'CE', cat: ['breakfast'], kcal: 228, serv: 2, carb: '44g', prot: '7g', fat: '4g',
+    ingredients: [['Black rice','50 gm'],['Grated coconut','2 tbsp'],['Ghee','1/2 tsp']],
+    method: ['Wash and soak black rice for 8 hours or overnight.','Filter the soaked water and use this for cooking the black rice.','Cook the rice till 10 whistles come with 2.5 cups of soaked water.','Open the lid and cook again till the rice attains a thick pudding like consistency.','In a pan, heat ghee and fry grated coconut till its golden brown.','Mix it with the rice and enjoy.'] },
+
+  { id: 'kadappa', name: 'Kadappa', sub: 'Rich In Vitamin C', phase: 'CE', cat: ['lunch','dinner'], kcal: 557, serv: 4, carb: '100g', prot: '13g', fat: '17g',
+    ingredients: [['Potato','2 no'],['Onion','2 no'],['Tomato','2 no'],['Green chilli','3 no'],['Asafetida','a pinch'],['Turmeric powder','1/2 tsp'],['Grated coconut','4 tbsp'],['Garlic','2 no'],['Fennel seeds','1 tsp'],['Mustard seeds','1 tsp'],['Curry leaves','1 sprig'],['Cloves','3 no'],['Cinnamon','1 inch'],['Bay leaf','1 no'],['Coconut oil','1 tbsp'],['Salt','to taste']],
+    method: ['Mash boiled potatoes.','Make a fine paste with coconut, 1 green chilli, garlic and fennel seeds.','Heat oil, splutter mustard seeds, curry leaves, cinnamon, cloves, bay leaf and a pinch of asafetida.','Sauté sliced onions until translucent, add green chilli and tomatoes. Cook until tomatoes are mushy.','Add a cup of water and let it boil for 5 minutes. Add the mashed potatoes, turmeric powder and salt. Cook for 5 minutes.','Add the coconut paste and let the gravy simmer for 7-10 minutes. Serve with appam, idiyappam or pathiri.'] },
+
+  { id: 'almond-butter-latte', name: 'Almond Butter Latte', sub: 'Good Source Of Antioxidants', phase: 'CE', cat: ['drinks'], kcal: 322, serv: 2, carb: '24g', prot: '8g', fat: '23g',
+    ingredients: [['Almond butter','2 tbsp'],['Coffee','80 ml'],['Unsweetened oat milk','250 ml'],['Cinnamon powder','1/2 tsp'],['Red chilli powder','a pinch'],['Orange peel','1 strip'],['Vanilla extract','1/2 tsp']],
+    method: ['Add the oat milk, cinnamon powder, orange peel and red chili powder to a pan. Let it simmer for 10 minutes over low to medium flame.','Let it cool and strain into a blender.','Add rest of the ingredients and blend.','Have iced or reheat and enjoy.'] },
+
+  { id: 'coconut-cinnamon-latte', name: 'Coconut Cinnamon Latte', sub: 'High In Calcium', phase: 'CE', cat: ['drinks'], kcal: 132, serv: 1, carb: '5g', prot: '0.2g', fat: '13g',
+    ingredients: [['Black tea','250 ml'],['Coconut oil','2 tsp'],['Ghee','1/2 tsp'],['Coconut milk','100 ml'],['Cinnamon powder','1/4 tsp'],['Vanilla extract','a dash']],
+    method: ['Add all the ingredients except tea to a blender.','To have hot, pour the blended ingredients over hot tea.','To have it cold, blend it with concoction of tea and add ice if needed.'] },
+
+  { id: 'mint-lassi', name: 'Mint Lassi', sub: 'Rich In Probiotics', phase: 'CE', cat: ['drinks'], kcal: 164, serv: 1, carb: '5g', prot: '5g', fat: '4g',
+    ingredients: [['Homemade curd','1 cup'],['Roasted cumin powder','1/2 tsp'],['Mint leaves','1/4 cup'],['Ginger','1/2 inch'],['Green chilli','1 no'],['Ice cubes','1/4 cup'],['Salt','to taste']],
+    method: ['Blend curd, cumin powder, mint leaves, ginger, green chilli, ice cubes and salt.','Enjoy it with a mint leaf on top.'] },
+
+  { id: 'tangy-raita', name: 'Tangy Raita', sub: 'Improves Immunity And Digestion', phase: 'CE', cat: ['drinks','snack'], kcal: 173, serv: 2, carb: '7g', prot: '5g', fat: '4g',
+    ingredients: [['Homemade yogurt','1 cup'],['Coriander leaves','2 sprigs'],['Mint leaves','10 leaves'],['Green chilli','1 no'],['Tamarind pulp','1/2 tbsp'],['Cumin powder','1/2 tsp'],['Dry ginger powder','1/4 tsp'],['Amchur powder','1/4 tsp'],['Black salt','to taste']],
+    method: ['Make a fine paste with mint leaves, coriander leaves and green chili.','Whip yogurt and add tamarind pulp, dry ginger powder, cumin powder, amchur powder and black salt.','Transfer everything to a bowl and enjoy.'] },
+
+  { id: 'palak-paneer', name: 'Palak Paneer', sub: 'Rich Source Of Fiber And Nutrients', phase: 'CE', cat: ['lunch'], kcal: 196, serv: 2, carb: '20g', prot: '8g', fat: '8g',
+    ingredients: [['Homemade paneer','1/2 cup'],['Chopped spinach','1 cup'],['Onion','1 tbsp'],['Tomato','1/2 tbsp'],['Garlic','2 cloves'],['Ginger','1/2 inch'],['Whipped homemade curd','1 tbsp'],['Cumin seeds','1 tsp'],['Turmeric powder','1/2 tsp'],['Garam masala','1 tsp'],['Butter','1 tsp'],['Salt','to taste']],
+    method: ['Make a puree with boiled and cooled spinach.','Boil tomato, onion, ginger and garlic with salt and turmeric powder. Grind this into a smooth paste after cooling.','Heat butter and add cumin seeds, add in the above paste along with spinach puree.','Mix everything and check for salt. Then add whipped curd and garam masala. Cook till oil separates.','Lastly add paneer cubes and mix well. Serve hot with jowar roti or rice.'] },
+
+  { id: 'lasooni-paneer', name: 'Lasooni Paneer', sub: 'Rich In Protein And Calcium', phase: 'CE', cat: ['lunch'], kcal: 226, serv: 2, carb: '24g', prot: '8g', fat: '8g',
+    ingredients: [['Homemade paneer','50 gm'],['Onion','1 no'],['Tomato','2 no'],['Green chilli','1/2 no'],['Ginger','1 tsp'],['Chopped garlic','1 tbsp'],['Almonds','3 no'],['Cumin','1 tsp'],['Ghee','1 tsp'],['Turmeric powder','1/2 tsp'],['Garlic clove','2 no'],['Water','1 cup'],['Homemade curd','1 tbsp'],['Kasurimethi','1 tsp'],['Garam masala','1 tsp'],['Coriander leaves','1 sprig'],['Salt','to taste']],
+    method: ['Boil tomato, onion, green chili, almonds, ginger, garlic cloves, season with salt and grind into a smooth paste.','Heat ghee in a kadai, add cumin seeds, sauté garlic till its raw smell goes, then add turmeric powder.','Transfer the grinded paste into the kadai and cook till oil separates. Add water to make curry. Sprinkle garam masala and kasurimethi.','Then add yogurt and give a nice mix and check for salt.','Add cubed paneer and finely sprinkle coriander leaves. Enjoy with rice.'] },
+
+  { id: 'veg-casserole', name: 'Veg Casserole', sub: 'Rich In Fibers And Vitamins', phase: 'CE', cat: ['lunch'], kcal: 537, serv: 4, carb: '81g', prot: '16g', fat: '18g',
+    ingredients: [['Basmati rice','100 gm'],['Broccoli','50 gm'],['Frozen peas','50 tbsp'],['Potato','1 no'],['Carrot','1 no'],['Onion','1 no'],['Garlic','3 cloves'],['Parsley','1 tbsp'],['Parmesan cheese','3 tbsp'],['Butter','2 tsp'],['Pepper','2 tsp'],['Coconut milk','250 ml'],['Italian seasoning','1 tsp'],['Sea salt','to taste']],
+    method: ['In a large wok, sauté garlic and onion for 1 minute.','Add all the veggies for about 1 minute. Season with salt and pepper and switch off the flame.','Preheat the oven at 180 degree C for 10 minutes.','In a baking tray, spread the washed rice evenly, then add the veggie mix along with coconut milk. Add chopped parsley, Italian seasoning, butter, salt and pepper and give a gentle mix.','Cover with an aluminum foil and bake for 60-80 minutes. Take it out in between and mix. Take out, spread some parmesan cheese and broil for 2-4 minutes.','Sprinkle some parsley and enjoy.'] },
+
+  { id: 'ragi-balls', name: 'Ragi Balls', sub: 'Rich In Fiber And Calcium', phase: 'CE', cat: ['breakfast'], kcal: 209, serv: 1, carb: '36g', prot: '4g', fat: '6g',
+    ingredients: [['Ragi powder','50 g'],['Ghee','1 tsp'],['Water','1.5 cups'],['Salt','to taste']],
+    method: ['Take water in a boiler, add salt and let it come to boil, Mix 2 tablespoon ragi powder in little water and add it to the boiling water.','Once it starts to thicken, add the rest of the ragi powder and fold it well into the ragi and water mixture.','The ragi will start stiffening and comes to a dough like consistency. Add ghee and mix it well. Adding ghee will help us release the ragi balls from the pan and adds a better flavor. Make it into balls and enjoy with curries or rasam.'] },
+
+  { id: 'ragi-porridge', name: 'Ragi Porridge', sub: 'Rich In Protein And Calcium', phase: 'CE', cat: ['breakfast'], kcal: 128, serv: 1, carb: '23g', prot: '6g', fat: '1g',
+    ingredients: [['Ragi powder','2 tbs'],['Onion finely chopped','1/2 no'],['Coriander leaves finely chopped','1 tbs'],['Lemon juice','1 tsp'],['Butter milk','1/2 glass'],['Chat masala','1/2 tsp'],['Green chilly finely chopped','1 no'],['Salt and pepper','to taste']],
+    method: ['Boil 1 cup water in a pan and add the ragi powder to it. Keep stirring continuously until it thickens and turn off the flame.','Add the rest of the ingredients to the ragi porridge and mix well. Serve hot or cold. Enjoy.'] },
+
+  { id: 'jowar-dosa', name: 'Jowar Dosa', sub: 'Fiber Rich • Gluten Free', phase: 'CE', cat: ['breakfast'], kcal: 382, serv: 2, carb: '77g', prot: '10g', fat: '3g',
+    ingredients: [['Jowar atta','100 g'],['Chilly','2 no'],['Jeera crushed','1 tsp'],['Coriander leaves chopped','1 tbs'],['Salt','to taste']],
+    method: ['Mix all the ingredients together with water. The consistency should be little watery than the normal dosa batter.','Heat the tawa and pour the batter like a crepe or Rava dosa, do not spread it.','Enjoy with chutney.'] },
+
+  { id: 'jowar-roti', name: 'Jowar Roti', sub: 'Fiber Rich • Gluten Free', phase: 'CE', cat: ['lunch'], kcal: 420, serv: 2, carb: '77g', prot: '10g', fat: '8g',
+    ingredients: [['Jowar atta','100 g'],['Ghee','1 tsp'],['Water','as needed'],['Salt','to taste']],
+    method: ['Add the jowar flour to hot water along with salt and make the dough and knead it to chapathi dough texture.','Make roti with greased with ghee. Enjoy hot.'] },
+
+  { id: 'sabudana-khichdi', name: 'Sabudana Khichdi', sub: 'Rich In Vitamin B6 And Lowers BP', phase: 'CE', cat: ['breakfast'], kcal: 267, serv: 1, carb: '50g', prot: '2g', fat: '6g',
+    ingredients: [['Sabudana','50 g'],['Green chilly chopped','1 no'],['Ghee','1/2 tsp'],['Sesame seeds','1 tbs'],['Almonds','5 no'],['Cumin seeds','1 tsp'],['Potato boiled','20 g'],['Lemon juice','1 tsp'],['Coriander leaves chopped','1 tbs'],['Salt','to taste']],
+    method: ['Wash the Sabudana well and soak it overnight. Once soaked, drain the water well and keep aside.','Roast sesame seeds and almonds and blend them into a coarse powder and mix it with the Sabudana, adding salt.','In a pan, add ghee, green chilly and cumin, sauté well. Now add the boiled potato cut into small cubes.','Once the potato is well roasted, add the Sabudana mix and let it cook through. Add lemon juice, mix well. Top it with some coriander and serve hot.'] },
+
+  { id: 'sprouted-moong-millet-pongal', name: 'Sprouted Moong Millet Pongal', sub: 'Lowers LDL & Blood Pressure', phase: 'CE', cat: ['breakfast'], kcal: 296, serv: 1, carb: '44g', prot: '8g', fat: '10g',
+    ingredients: [['Millet','1/4 cup'],['Sprouted green moong dal','20 g'],['Ghee','1 tsp'],['Pepper crushed','1 tsp'],['Ginger crushed','1 tsp'],['Curry leaves','5 no'],['Cumin seeds crushed','1 tsp'],['Almonds diced','2 no'],['Coconut milk','30 ml'],['Salt','to taste']],
+    method: ['Wash the millets and soak it for an hour. This helps to cook the millet soft.','In a pressure cooker, add the millets and sprouted moong dal, add water at 1:3 ratio and pressure cook it.','Once cooked release the pressure and add coconut milk, mix well and let it cook for 2 min and turn off the flame.','In a tadka pan, add ghee, pepper, cumin, ginger, curry leaves and almonds and slightly roast it and add it to the cooked millet and mix. Enjoy hot.'] },
+
+  // SOUPS
+  { id: 'broccoli-soup', name: 'Broccoli Soup', sub: 'Lowers Blood Sugar & Promotes Weight Loss', phase: 'CE', cat: ['soup','dinner'], kcal: 162, serv: 1, carb: '13g', prot: '5g', fat: '9g',
+    ingredients: [['Broccoli','1 cup'],['Onion','1 no'],['Garlic','5 no'],['Dry herbs','1 tsp'],['Butter','2 tsp'],['Water','as needed'],['Salt and pepper','to taste']],
+    method: ['Sauté the onion, garlic, herbs and broccoli with butter.','Once cooked, cool and blend it and boil it with water and serve hot.','Tip: Use whey protein mixed with little water to thicken the soup.'] },
+
+  { id: 'carrot-almonds-soup', name: 'Carrot Almonds Soup', sub: 'Rich Source Of Fiber And Nutrients', phase: 'CE', cat: ['soup','dinner'], kcal: 171, serv: 2, carb: '19g', prot: '5g', fat: '11g',
+    ingredients: [['Diced carrot','100 gms'],['Almonds','4 no'],['Tomato','1 no'],['Bay leaf','1 no'],['Cloves','2 no'],['Chopped ginger','1 tsp'],['Chopped garlic','1 tsp'],['Turmeric powder','1/2 tsp'],['Garam masala','1/2 tsp'],['Chilli powder','1/2 tsp'],['Coconut cream','1 tsp'],['Kasurimethi','1/2 tsp'],['Butter','1 tsp'],['Salt','to taste']],
+    method: ['Pan fry carrots with some salt. In a kadai, heat butter and add bay leaf, cloves. Then sauté tomatoes with ginger and garlic. Add all the masalas.','Then add carrots and cook for 5 minutes. Check for salt.','When everything is cooled, blend into very smooth paste.','Put it back to the saucepan and add water to make the consistency right. Simmer for 5 minutes.','Sprinkle some kasurimethi at last. Enjoy hot soup with a dash of coconut cream on top.'] },
+
+  { id: 'lemon-coriander-soup', name: 'Lemon Coriander Soup', sub: 'Gluten Free & Rich In Antioxidants', phase: 'CE', cat: ['soup','dinner'], kcal: 50, serv: 1, carb: '7g', prot: '1g', fat: '3g',
+    ingredients: [['Lime juice','2 tbs'],['Celery chopped','2 stalks'],['Ginger garlic paste','1 tsp'],['Coriander leaves chopped','2 tbs'],['Onion chopped','1/2 no'],['Ghee','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pan, sauté onions in ghee. Now add the ginger garlic paste, celery and coriander, sauté well.','Add water, lime juice, pepper and salt, let the soup boil for 5-10 min and its ready. Enjoy.'] },
+
+  // V1 recipes
+  { id: 'everyday-salad', name: 'Everyday Salad', sub: 'Rich Source Of Fiber & Minerals', phase: 'V1', cat: ['lunch','dinner'], kcal: 109, serv: 1, carb: '9g', prot: '2g', fat: '8g',
+    ingredients: [['Shredded lettuce','1 cup'],['Sliced carrots','50 g'],['Sliced Onion','1 no'],['Diced avocado','50 g'],['Chopped cilantro','2 tbs'],['Lime juice','1 tsp'],['Apple cider vinegar','1 tsp'],['Salt and pepper','to taste']],
+    method: ['Toss all the ingredients in a large bowl and enjoy the fresh salad.'] },
+
+  { id: 'carrot-soup', name: 'Carrot Soup', sub: 'Rich In Vitamin C And Iron', phase: 'V1', cat: ['soup'], kcal: 184, serv: 1, carb: '19g', prot: '3g', fat: '9g',
+    ingredients: [['Carrots','1 cup'],['Onion','1 no'],['Garlic','5 no'],['Dry herbs','1 tsp'],['Butter','2 tsp'],['Salt and pepper','to taste'],['Water','as needed']],
+    method: ['Sauté the onion, garlic, herbs and vegetable with butter.','Once cooked, cool and blend it and boil it with water and serve hot.','Tip: Use whey protein mixed with little water to thicken the soup.'] },
+
+  { id: 'green-eggs', name: 'Green Eggs', sub: 'Loaded With Vitamins & Good Fats', phase: 'V1', cat: ['breakfast'], kcal: 130, serv: 1, carb: '5g', prot: '12g', fat: '5g',
+    ingredients: [['Spinach finely chopped','1/2 cup'],['Egg whites','3 no'],['Onion','1 no'],['Coriander powder','1/2 tsp'],['Pepper powder','1/2 tsp'],['Turmeric powder','1/2 tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Whisk three egg whites, add spinach, onion, coriander powder, turmeric powder and ground black pepper and mix well.','Heat pan and grease it with ghee. Pour in the mixture and let the omelet nicely cook through and serve hot.'] },
+
+  { id: 'beet-frittata', name: 'Beet Frittata', sub: 'Rich In Iron & Boosts Stamina', phase: 'V1', cat: ['breakfast'], kcal: 151, serv: 1, carb: '18g', prot: '11g', fat: '3g',
+    ingredients: [['Beetroot','100 g'],['Egg whites','2 no'],['Onion','1 no'],['Mint leaves finely chopped','1 tbs'],['Pepper powder','1 tsp'],['Garam masala','1 tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Take a mix of onions, beetroot and mint leaves, add 1/2 tsp ghee with salt, pepper and garam masala and sauté.','Beat two egg white and add to mix.','Grease the pan with 1/2 tsp ghee and once hot pour the mixture and cook through. Once done serve with lime zest and enjoy hot.'] },
+
+  { id: 'root-bowl', name: 'Root Bowl', sub: 'High In Protein & Lowers Blood Fat', phase: 'V1', cat: ['lunch','dinner'], kcal: 98, serv: 1, carb: '15g', prot: '9g', fat: '0.2g',
+    ingredients: [['Egg whites boiled','2 no'],['Beetroot','50 g'],['Carrot','50 g'],['Vinegar','1 tsp'],['Lime juice','1 tsp'],['Chat masala','1/2 tsp'],['Chopped cilantro','1 tbs'],['Salt and pepper','to taste']],
+    method: ['Cut eggs length wise thinly, grate beetroot and carrots and add vinegar, salt, pepper, chat masala, lime juice and cilantro and let it sit for 10-15 min and serve cold.'] },
+
+  // V2
+  { id: 'cauli-roast', name: 'Cauli Roast', sub: 'Rich In Vitamin B And Fiber', phase: 'V2', cat: ['lunch','dinner'], kcal: 116, serv: 1, carb: '17g', prot: '4g', fat: '4g',
+    ingredients: [['Cauliflower','60 g'],['Mushroom','20 g'],['Spinach','1 cup'],['Onion','1 no'],['Fennel powder','1 tsp'],['Garlic','2 no'],['Butter','1 tsp'],['Radish','10 g'],['Raw mango','10 g'],['Salt and pepper','to taste']],
+    method: ['Bake or steam the cauliflower with salt and keep aside. Sauté the mushrooms with butter, pepper, garlic and salt.','Make Palak puree with onion, garlic, and Fennel powder. Place the cauliflower and mushrooms over the puree and glaze it with mango and radish. Enjoy.'] },
+
+  { id: 'homemade-cheese', name: 'Homemade Cheese', sub: 'Rich In Protein', phase: 'V2', cat: ['snack'], kcal: 735, serv: 5, carb: '60g', prot: '39g', fat: '40g',
+    ingredients: [['Full cream milk','1 L'],['Curd','3/4 cup']],
+    method: ['Boil milk in a heavy bottom vessel and once its warm, add the curd. The milk will curdle, now separate the whey and paneer.','Blend the paneer into a nice smooth paste and pour it in a container. Bake it for 45 min at 150 degrees. Enjoy the homemade cheese.'] },
+
+  { id: 'paneer-pepper-fry', name: 'Paneer Pepper Fry', sub: 'High In Protein And Calcium', phase: 'V2', cat: ['snack'], kcal: 150, serv: 1, carb: '1g', prot: '6g', fat: '13g',
+    ingredients: [['Paneer','30 g'],['Lime juice','1 tbs'],['Ghee','1 tsp'],['Pepper','1 tsp'],['Salt','to taste']],
+    method: ['Cut the paneer cubes. Now add pepper, salt and lime juice, mix well.','In a dosa tawa, spread ghee and toast the paneer on both sides until they turn crisp. Enjoy.'] },
+
+  // NEW RECIPES FROM OFFICIAL MEAL PLAN PDF
+  { id: 'egg-white-roast', name: 'Egg White Roast', sub: 'High Protein Light Dinner', phase: 'CE', cat: ['dinner','breakfast'], kcal: 80, serv: 1, carb: '1g', prot: '14g', fat: '3g',
+    ingredients: [['Egg Whites','2 nos'],['Pepper Powder','2 g'],['Chilli Powder','2 g'],['Turmeric Powder','a pinch'],['Salt','to taste'],['Butter','2 g']],
+    method: ['Boil the eggs.','In a heated tawa, add butter and spice powders.','Cut the boiled egg whites into half and put in the tawa and roast each side for 2 mins.'] },
+
+  { id: 'egg-white-bhurji', name: 'Egg White Bhurji', sub: 'High Protein Scramble', phase: 'CE', cat: ['breakfast','dinner'], kcal: 120, serv: 1, carb: '4g', prot: '14g', fat: '5g',
+    ingredients: [['Egg white','4 nos'],['Onion chopped','20 g'],['Turmeric powder','1/4 tsp'],['Pepper Powder','1/2 tsp'],['Cumin Seeds','2 g'],['Cumin Powder','1/4 tsp'],['Gingelly oil','1 tsp'],['Salt','to taste']],
+    method: ['Break the eggs and add to a bowl. Whisk the eggs well and set aside.','Heat a pan over medium heat and once hot, add oil and cumin seeds. Sauté for about 30 seconds until the cumin seeds change color.','Add onion and sauté for about 5-7 minutes until golden brown. Add spice powders and mix well.','Add the egg mixture and cook for 1-2 minutes, scrambling the eggs until cooked. Keep stirring continuously. Garnish with cilantro.'] },
+
+  { id: 'coconut-rice', name: 'Coconut Rice', sub: 'Rich In Vitamin C & Improves Skin', phase: 'V5', cat: ['lunch'], kcal: 160, serv: 1, carb: '22g', prot: '3g', fat: '7g',
+    ingredients: [['Rice cooked','70 g'],['Freshly grated coconut/desiccated coconut','10 g'],['Curry leaves','6 no'],['Almonds shaved','2 no'],['Green chilly','2 no'],['Mustard','1 tsp'],['Coconut oil','1/2 tsp'],['Salt','to taste']],
+    method: ['In a pan, add coconut oil, mustard, chilly and curry leaves, once the mustard crackles, add in the almonds and roast it.','Now add the coconut and sauté until the coconut turns slightly brown and aromatic. Add the rice and mix well. Adjust salt and turn off. Enjoy hot.'] },
+
+  { id: 'lemon-rice', name: 'Lemon Rice', sub: 'Rich In Vitamin C & Improves Skin', phase: 'V5', cat: ['lunch'], kcal: 134, serv: 1, carb: '25g', prot: '2g', fat: '3g',
+    ingredients: [['Rice cooked','80 g'],['Lemon juice','2 tbs'],['Curry leaves','6 no'],['Turmeric','1/2 tsp'],['Dry red chilly','2 no'],['Mustard','1 tsp'],['Ginger grated','1 tsp'],['Coconut oil','1/2 tsp'],['Salt','to taste']],
+    method: ['In a pan, add coconut oil, mustard, chilly and curry leaves, once the mustard crackles, add in the lemon juice, salt, grated ginger and turmeric, mix well.','Let the paste cook well and turn off. Now mix the paste with rice, adjust salt. Enjoy.'] },
+
+  { id: 'tamarind-rice', name: 'Tamarind Rice', sub: 'Antioxidant Rich & Anti-inflammatory', phase: 'V5', cat: ['lunch'], kcal: 141, serv: 1, carb: '25g', prot: '2g', fat: '3g',
+    ingredients: [['Rice cooked','70 g'],['Tamarind pulp','2 tbs'],['Curry leaves','6 no'],['Turmeric','1/2 tsp'],['Dry red chilly','2 no'],['Mustard','1 tsp'],['Sesame powder','1 tbs'],['Coconut oil','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pan, add coconut oil, mustard, chilly and curry leaves, once the mustard crackles, add in the tamarind paste, salt, pepper and turmeric, mix well.','Let the paste cook well and turn off. Now mix the paste with rice, adding the sesame powder. Enjoy.'] },
+
+  { id: 'beetroot-thoran', name: 'Beetroot Thoran', sub: 'Rich In Iron & Boosts Stamina', phase: 'V2', cat: ['lunch','dinner'], kcal: 133, serv: 1, carb: '15g', prot: '5g', fat: '5g',
+    ingredients: [['Steamed beetroot','100 g'],['Onion chopped','1 no'],['Curry leaves','5 no'],['Mustard seeds','1/2 tsp'],['Coconut grated','10 g'],['Coconut oil','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pad, add coconut oil, curry leaves and mustard seeds; once the mustard seeds crackle, add the onions and sauté well.','Now add the beetroot, salt and pepper and sauté for 5 mins. Now top it with some fresh grated coconut and enjoy hot.'] },
+
+  { id: 'snake-gourd-saute', name: 'Snake Gourd Sauté', sub: 'Enhances Digestive System', phase: 'CE', cat: ['dinner'], kcal: 119, serv: 1, carb: '10g', prot: '2g', fat: '9g',
+    ingredients: [['Snake gourd','200 g'],['Coconut meat','20 g'],['Cumin seeds','1 tsp'],['Ghee','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pan, add ghee, then add cumin seeds and snake gourd and sauté until the veggie is well cooked.','Now add the coconut meat and cook for about two minutes. Add salt and pepper and serve hot.'] },
+
+  { id: 'bottle-gourd-saute', name: 'Bottle Gourd Sauté', sub: 'Rich In Vitamin C And Vitamin K', phase: 'CE', cat: ['dinner'], kcal: 107, serv: 1, carb: '9g', prot: '2g', fat: '8g',
+    ingredients: [['Bottle gourd','200 g'],['Coconut meat','20 g'],['Cumin seeds','1 tsp'],['Ghee','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pan, add ghee, then add cumin seeds and bottle gourd and sauté until the veggie is well cooked.','Now add the coconut meat and cook for about two minutes. Add salt and pepper and serve hot.'] },
+
+  { id: 'bottle-gourd-dosa', name: 'Bottle Gourd Dosa', sub: 'Rich In Fiber & Promotes Hydration', phase: 'V5', cat: ['breakfast'], kcal: 121, serv: 1, carb: '22g', prot: '3g', fat: '3g',
+    ingredients: [['Bottle gourd','100 g'],['Rice raw','15 g'],['Onions finely chopped','1/2 no'],['Cilantro finely chopped','1 tbs'],['Curry leaves','2 no'],['Green chilly chopped','1 no'],['Ghee','1/2 tsp'],['Jeera','1 tsp'],['Salt','to taste']],
+    method: ['Soak the raw rice in water for 3-5 hours. Peel the skin of the bottle gourd and deseed them, cut it into small pieces.','Now blend the soaked rice with the bottle gourd into a dosa batter consistency.','Add in the rest of the ingredients to the batter and mix well. Pour the batter on a non stick tawa and make the dosa. Top it with some ghee. Enjoy hot.'] },
+
+  { id: 'beetroot-coconut-chutney', name: 'Beetroot Coconut Chutney', sub: 'Rich In Folate', phase: 'V2', cat: ['snack'], kcal: 244, serv: 2, carb: '24g', prot: '2g', fat: '10g',
+    ingredients: [['Beetroot','1 no'],['Grated coconut','2 tbsp'],['Ginger','1 tsp'],['Coriander leaves','2 sprigs'],['Lemon juice','1/2 no'],['Curry leaves','1 tsp'],['Coconut oil','1 tsp'],['Pepper','to taste'],['Salt','to taste']],
+    method: ['In a blender, add chopped beetroot, grated coconut, ginger, coriander, pepper, salt.','Temper with coconut oil, mustard seeds and curry leaves.','Blend to form a smooth paste and enjoy.'] },
+
+  { id: 'vatha-kozhambu', name: 'Vatha Kozhambu', sub: 'High In Antioxidants And Magnesium', phase: 'V4', cat: ['lunch'], kcal: 219, serv: 2, carb: '18g', prot: '3g', fat: '15g',
+    ingredients: [['Lemon size tamarind','3 tbsp'],['Shallots','50 gm'],['Sesame oil','3 tsp'],['Red chilli','4 no'],['Peppercorns','1 tsp'],['Curry leaves','1 sprig'],['Mustard seeds','1 tsp'],['Cumin seeds','1 tsp'],['Fenugreek seeds','1/4 tsp'],['Salt','to taste']],
+    method: ['Extract the juice of tamarind after soaking in water.','Meanwhile, fry shallots in 1 tsp oil till it becomes brown and keep them aside.','Pour a teaspoon of oil in the pan and sauté red chilli, peppercorns, hing and curry leaves. Grind this into a paste and keep it aside.','Kozhambu making: Add tamarind extract along with salt and allow it to boil. Add the ground paste along with shallots and cook for a few minutes.','Temper the kozhambu with mustard seeds, cumin seeds, fenugreek seed and hing.'] },
+
+  { id: 'drumstick-leaves-saute', name: 'Drumstick Leaves Sauté', sub: 'Nourishes Skin And Hair', phase: 'V2', cat: ['lunch','dinner'], kcal: 115, serv: 1, carb: '7g', prot: '6g', fat: '9g',
+    ingredients: [['Drumstick leaves','50 g'],['Coconut meat','20 g'],['Cumin seeds','1 tsp'],['Ghee','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pan, add ghee, then add cumin seeds and drumstick leaves and sauté until the veggie is well cooked.','Now add the coconut meat and cook for about two minutes. Add salt and pepper and serve hot.'] },
+
+  { id: 'cucumber-salad', name: 'Cucumber Salad', sub: 'Promotes Hydration', phase: 'V1', cat: ['dinner','lunch'], kcal: 125, serv: 1, carb: '14g', prot: '3g', fat: '6g',
+    ingredients: [['Cucumber','200 g'],['Onion chopped','100 g'],['Olives','3 no'],['Lime juice','1/2 tbs'],['Olive oil','1 tsp'],['Salt and pepper','to taste']],
+    method: ['Chop the veggies and toss them in lime juice, olive oil, salt and pepper.','Enjoy the fresh salad.'] },
+
+  { id: 'shallot-garlic-chutney', name: 'Shallot Garlic Chutney', sub: 'High In Antioxidants', phase: 'V1', cat: ['snack'], kcal: 124, serv: 1, carb: '20g', prot: '3g', fat: '5g',
+    ingredients: [['Shallots','100 gm'],['Garlic','3 cloves'],['Curry leaves','5 leaves'],['Peppercorns','1/2 tsp'],['Coconut oil','1 tsp'],['Salt','to taste']],
+    method: ['In a pan, sauté shallots, garlic cloves, curry leaves.','Let it cool down and then blend into a smooth paste along with peppercorns and salt.','Enjoy.'] },
+
+  { id: 'cucumber-curd-rice', name: 'Cucumber Curd Rice', sub: 'Rich In Calcium & Promotes Balanced Hydration', phase: 'V5', cat: ['lunch'], kcal: 149, serv: 1, carb: '33g', prot: '3g', fat: '2g',
+    ingredients: [['Cucumber grated','50 gm'],['Rice cooked','80 gm'],['Curd','4 tbs'],['Curry leaves','5 no'],['Mustard','1 tsp'],['Ghee','1/2 tsp'],['Salt','to taste']],
+    method: ['Mix the rice and cucumber with the curd, adjust the salt.','For the tempering, in a pan, add ghee, mustard seeds, and curry leaves and let it crackle. Serve the curd rice with the tempering. Enjoy.'] },
+
+  { id: 'loaded-veggies', name: 'Loaded Veggies', sub: 'Rich In Calcium And Fiber', phase: 'V2', cat: ['lunch','dinner'], kcal: 120, serv: 1, carb: '20g', prot: '5g', fat: '3g',
+    ingredients: [['Yellow cucumber','50 gm'],['Carrots','50 gm'],['Peas boiled','20 gm'],['Spinach','30 gm'],['Onion chopped','1/2 no'],['Jeera powder','1/2 tsp'],['Coriander powder','1/2 tsp'],['Garam masala','1/2 tsp'],['Turmeric powder','1/2 tsp'],['Ghee','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pan, add ghee and sauté the onion until they are well cooked. Now add the chopped veggies and sauté.','Once the veggies are half cooked, add jeera powder, garam masala, turmeric, coriander powder, salt and pepper, mix well.','Add little water and close the lid and let the veggies cook completely, turn off the flame. Enjoy hot.'] },
+
+  { id: 'raw-mango-stew', name: 'Raw Mango Stew', sub: 'Rich In Vitamin A And Vitamin E', phase: 'V2', cat: ['breakfast','dinner'], kcal: 146, serv: 1, carb: '25g', prot: '2g', fat: '5g',
+    ingredients: [['Raw mango chopped','100 g'],['Carrots chopped','30 g'],['Onions finely chopped','1/2 no'],['Mustard seeds','1/2 tsp'],['Curry leaves','5 no'],['Turmeric powder','1/2 tsp'],['Coconut oil','1/2 tsp'],['Unsweetened coconut milk','120 ml'],['Salt and pepper','to taste']],
+    method: ['In pan, Add coconut oil, mustard seeds and curry leaves, once the mustard splutters, add onions and sauté well.','Now add in the raw mango, carrots, turmeric, garam masala, salt and pepper, mix well. Add a little water, close the pan and let the veggies cook for another 2 minutes and turn off the flame.','Now add the coconut milk and let it come to off the flame. Enjoy hot.'] },
+
+  { id: 'drumstick-tikki', name: 'Drumstick Tikki', sub: 'Rich Source Of Vitamins And Minerals', phase: 'V3', cat: ['snack'], kcal: 152, serv: 1, carb: '24g', prot: '6g', fat: '6g',
+    ingredients: [['Drumstick','10 no'],['Garlic','2 no'],['Garam masala','1/2 tsp'],['Psyllium husk','1 tbsp'],['Onion','1 no'],['Ginger','1 tsp'],['Pepper powder','1 tsp'],['Coriander leaves','2 sprigs'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Boil the drumsticks till they are tender.','Scrape out the inner portion with a spoon.','In a pan, heat some ghee, sauté finely chopped onion, chopped garlic and chopped ginger. Then add scraped out drumstick, season with salt and garam masala. Add some chopped coriander leaves.','Transfer everything to a bowl, add psyllium husk and make small tikki out of it.','Fry both sides by brushing some ghee on top of each side. Enjoy.'] },
+
+  // MISSING RECIPES REFERENCED IN MEAL PLAN
+  { id: 'cabbage-soup', name: 'Cabbage Soup', sub: 'Rich In Vitamin C And Vitamin K', phase: 'CE', cat: ['soup','dinner'], kcal: 187, serv: 1, carb: '20g', prot: '3g', fat: '11g',
+    ingredients: [['Cabbage','1 cup'],['Onion','1 no'],['Ginger minced','1 tsp'],['Garlic minced','2 tsp'],['Cinnamon','1 tsp'],['Cardamom','1 tsp'],['Coriander','1 tbs'],['Butter','1 tbs'],['Water','as needed'],['Salt and pepper','to taste']],
+    method: ['Sauté onion and garlic along with the spices in butter and then add cabbage and sauté till the cabbage is semi cooked.','Add water and cook, until the veggie is cooked through, add desired amount of salt and pepper and serve hot.'] },
+
+  { id: 'avocado-soup', name: 'Avocado Soup', sub: 'Good Fat • Reduces Triglycerides', phase: 'CE', cat: ['soup','dinner'], kcal: 371, serv: 1, carb: '20g', prot: '5g', fat: '30g',
+    ingredients: [['Avocado','1 no'],['Onion','1 no'],['Garlic','5 no'],['Dry herbs','1 tsp'],['Butter','2 tsp'],['Water','as needed'],['Salt and pepper','to taste']],
+    method: ['Remove the avocado rind and slice it and keep aside. Sauté the onion, garlic, herbs and avocado with butter.','Once cooked, cool and blend it and boil it with water and serve hot.','Tip: Use whey protein mixed with little water to thicken the soup.'] },
+
+  { id: 'french-onion-egg-soup', name: 'French Onion Egg Soup', sub: 'Boost Bone Density & Digestive Health', phase: 'CE', cat: ['soup','dinner'], kcal: 116, serv: 1, carb: '11g', prot: '9g', fat: '4g',
+    ingredients: [['Egg whites','2 no'],['Onion large','1 no'],['Butter','1 tsp'],['Garlic minced','1 tsp'],['Herbs','1 tsp'],['Water/veg stock','as needed'],['Salt and pepper','to taste']],
+    method: ['Sauté garlic and herbs in butter. Add the thinly sliced Onion and sauté until its caramelized and then Add water/veg stock and bring it to a boil.','Beat egg whites separately and add it to the boiling soup in drops. Once the egg whites turn white, season it with salt and pepper and serve hot.'] },
+
+  { id: 'bean-soup', name: 'Bean Soup', sub: 'Rich In Vitamin B (Folate) And A', phase: 'V1', cat: ['soup','dinner'], kcal: 166, serv: 1, carb: '13g', prot: '4g', fat: '8g',
+    ingredients: [['Beans','1 cup'],['Onion','1 no'],['Garlic','5 no'],['Dry herbs','1 tsp'],['Butter','2 tsp'],['Salt and pepper','to taste'],['Water','as needed']],
+    method: ['Sauté the onion, garlic, herbs and Vegetable with butter.','Once cooked, cool and blend it and boil it with water and serve hot.','Tip: Use whey protein mixed with little water to thicken the soup.'] },
+
+  { id: 'idiyappam', name: 'Idiyappam', sub: 'Rich In Fiber', phase: 'CE', cat: ['breakfast'], kcal: 183, serv: 1, carb: '40g', prot: '3g', fat: '0.4g',
+    ingredients: [['Rice flour','50 g'],['Water','as needed'],['Salt','to taste']],
+    method: ['Make a soft dough combining the flour, salt and water.','Use Idiyappam maker to make the idiyappam and steam them in idly maker. If you don\'t have idiyappam maker, Make balls out of the dough and steam them. Enjoy.'] },
+
+  { id: 'rice-dumplings', name: 'Rice Dumplings', sub: 'Rich In Fiber', phase: 'CE', cat: ['snack'], kcal: 214, serv: 1, carb: '41g', prot: '4g', fat: '4g',
+    ingredients: [['Raw rice','50 g'],['Coconut grated','2 tbs'],['Salt','to taste']],
+    method: ['Soak rice for an hour. Grind it to a thick dough consistency and add salt to the rice blend, mix well.','Now make small balls out of the dough. Steam the balls or boil them in water for 10 min.','Now temper it as per choice and serve it with grated coconut. Enjoy.'] },
+
+  { id: 'malabar-pathiri', name: 'Malabar Pathiri', sub: 'Rich In Magnesium And Vitamin B', phase: 'CE', cat: ['breakfast'], kcal: 165, serv: 1, carb: '31g', prot: '3g', fat: '3g',
+    ingredients: [['Rice flour','1/4 cup'],['Coconut oil','1/2 tsp'],['Water','1/2 cup'],['Salt','to taste']],
+    method: ['Dry roast rice flour on medium flame for about 5 minutes and keep aside.','In a cooking pot, add coconut oil, salt and water, let it boil vigorously. Slow the flame, add the roasted rice flour and mix continuously until it reaches a dough consistency.','Apply oil to your hands and knead the dough well. Make small balls out of the dough and roll out very thin round sheets. Dust the dough with rice flour while rolling out to avoid stickiness.','Now toast the pathiri in a non-stick tawa for 30 sec on either side. Serve hot. Enjoy.'] },
+
+  // NEW RECIPES — 3rd PDF
+  { id: 'egg-white-omelette', name: 'Egg White Omelette', sub: 'High Protein CE Staple', phase: 'CE', cat: ['breakfast','dinner'], kcal: 90, serv: 1, carb: '2g', prot: '14g', fat: '3g',
+    ingredients: [['Egg whites','3 nos'],['Onion chopped','1/4 no'],['Green chilli','1 no'],['Coriander leaves','1 tbsp'],['Turmeric powder','a pinch'],['Pepper powder','1/2 tsp'],['Ghee/butter','1 tsp'],['Salt','to taste']],
+    method: ['Whisk egg whites well with a pinch of turmeric, salt and pepper.','Add chopped onion, green chilli and coriander leaves to the egg mix.','Heat a pan and grease with ghee/butter. Pour the egg mixture and cook on medium flame.','Flip once the bottom is set. Cook through and serve hot.'] },
+
+  { id: 'tomato-soup', name: 'Tomato Soup', sub: 'Rich In Vitamin C And Potassium', phase: 'V4', cat: ['soup','dinner'], kcal: 219, serv: 2, carb: '27g', prot: '6g', fat: '8g',
+    ingredients: [['Tomato','1 cup'],['Onion','1 no'],['Garlic','5 no'],['Dry herbs','1 tsp'],['Butter','2 tsp'],['Salt and pepper','to taste'],['Water','as needed']],
+    method: ['Sauté the onion, garlic, herbs and Vegetable with butter.','Once cooked, cool and blend it and boil it with water and serve hot.','Tip: Use whey protein mixed with little water to thicken the soup.'] },
+
+  { id: 'zucchini-fritters', name: 'Zucchini Fritters', sub: 'Rich Source Of Energy', phase: 'V3', cat: ['dinner','snack'], kcal: 232, serv: 2, carb: '6g', prot: '7g', fat: '21g',
+    ingredients: [['Zucchini','80 gm'],['Mozzarella cheese','3 tbsp'],['Italian seasoning','1 tsp'],['Garlic cloves','1 clove'],['Almond flour','1/2 tbsp'],['Butter','4 tsp'],['Salt','to taste']],
+    method: ['Grate zucchini and squeeze out the excess water.','In a bowl, add grated zucchini, Italian seasoning, mozzarella cheese, crushed garlic clove, almond flour and salt.','Make small balls out of it and flatten them slightly like cutlets.','Shallow fry in butter on both sides. Enjoy.'] },
+
+  { id: 'bajra-khichdi', name: 'Bajra Khichdi', sub: 'Plenty Of Fibers', phase: 'V6', cat: ['breakfast'], kcal: 396, serv: 2, carb: '66g', prot: '15g', fat: '8g',
+    ingredients: [['Bajra','60 gm'],['Green moong dal','100 gm'],['Turmeric powder','1 tsp'],['Cumin seeds','1 tsp'],['Asafetida','1 tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Soak bajra for 7-8 hours.','Now pressure cook bajra, green moong dal, turmeric powder and salt until 4 whistles.','Make the tempering with ghee, cumin seeds and asafetida and add this to khichdi.','Enjoy.'] },
+
+  { id: 'baingan-bharta', name: 'Baingan Bharta', sub: 'Rich In Vitamin A And Vitamin C', phase: 'V4', cat: ['lunch','dinner'], kcal: 274, serv: 2, carb: '48g', prot: '9g', fat: '7g',
+    ingredients: [['Egg plant','2 no'],['Onion','1 no'],['Tomato','1 no'],['Cumin seeds','1 tsp'],['Green chillies','1 no'],['Turmeric powder','1/2 tsp'],['Coriander powder','2 tsp'],['Garlic','4 cloves'],['Ginger garlic paste','2 tsp'],['Garam masala','1 tsp'],['Coriander leaves','2 sprigs'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Rinse, pat dry and cut the egg plant from down to above from 4 sides. Insert garlic on two sides and grill on direct flame. Remove the charred skin and mash them nicely.','In a kadai, heat ghee, add cumin seeds and green chillies. Then add ginger garlic paste and sauté till the raw smell goes.','Add chopped onion and sauté, then add turmeric powder, coriander powder and garam masala. When everything is cooked, add chopped tomatoes.','Next add mashed egg plant, mix well and add water. Let the gravy simmer for few minutes till it attains the required consistency. Add salt and chopped coriander leaves.','Enjoy with roti.'] },
+
+  { id: 'carrot-zucchini-soup', name: 'Carrot Zucchini Soup', sub: 'Lowers Blood Sugar & Promotes Weight Loss', phase: 'V1', cat: ['soup','dinner'], kcal: 123, serv: 1, carb: '23g', prot: '4g', fat: '3g',
+    ingredients: [['Carrots','250 g'],['Zucchini','100 g'],['Ginger','1 inch'],['Clove','1 no'],['Olive oil','1/2 tsp'],['Salt','to taste']],
+    method: ['Sauté the carrots, zucchini, garlic and clove in olive oil.','Once cooked, blend with water. Top it with butter tossed broccoli and enjoy hot.'] },
+
+  { id: 'sprouted-brussels-roast', name: 'Sprouted Brussels Roast', sub: 'Rich In Antioxidants And Vitamin K', phase: 'V2', cat: ['dinner','snack'], kcal: 133, serv: 1, carb: '14g', prot: '7g', fat: '6g',
+    ingredients: [['Brussel sprouts','150 g'],['Unprocessed cheese grated','1 tbs'],['Minced garlic','2 no'],['Mixed herbs','1 tsp'],['Olive oil','1 tsp'],['Apple cider vinegar','1 tsp'],['Salt and pepper','to taste']],
+    method: ['Sauté the Brussel sprouts in olive oil, until they are cooked.','Add the garlic, herbs, apple cider vinegar, salt and pepper and mix well and roast them until the Brussel sprouts turn slightly brown.','Serve it with grated cheese topping and enjoy.'] },
+
+  // Day 3 new recipes
+  { id: 'berry-chia-pudding', name: 'Berry Chia Pudding', sub: 'Rich In Vitamin K And Vitamin C', phase: 'V3', cat: ['breakfast'], kcal: 143, serv: 1, carb: '8g', prot: '3g', fat: '9g',
+    ingredients: [['Chia seeds','2 tbs'],['Strawberry','30 g'],['Blueberry','30 g'],['Coconut milk','25 ml'],['Almond shaves','2 no']],
+    method: ['Blend the strawberries and blueberries into a smooth paste. Reserve some fruits for topping.','Mix the chia seeds with coconut milk and little water and divide it into two cups. Mix the berry paste into one of the cups. Let the cups rest for 30 min in fridge.','Once the chia seeds are well soaked, take a glass and layer the plain pudding and the berry pudding alternatively. Top it with fruits and almonds. Enjoy.'] },
+
+  { id: 'dahi-paneer', name: 'Dahi Paneer', sub: 'Rich In Calcium And Protein', phase: 'V2', cat: ['lunch'], kcal: 293, serv: 2, carb: '27g', prot: '13g', fat: '16g',
+    ingredients: [['Paneer','50 gm'],['Homemade curd','150 gm'],['Onion','1 no'],['Carom seeds','1 tsp'],['Cumin seeds','1 tsp'],['Cardamom','4 no'],['Fennel seeds','1 tsp'],['Chopped ginger','2 tsp'],['Chopped garlic','2 tsp'],['Turmeric powder','1/2 tsp'],['Ghee','1 tsp'],['Hing','1/2 tsp'],['Salt','to taste']],
+    method: ['Whisk curd with hing, turmeric powder, salt and some water.','Fry paneer cubes.','In a kadai, add cumin seeds, carom seeds, cardamom, fennel seeds. Sauté on low flame.','Add onion, ginger and garlic and fry for few minutes.','Then add whisked curd mix and stir continuously.','When oil starts to separate, add fried paneer. Add some coriander leaves.','Enjoy with gluten free parathas.'] },
+
+  // NI EGGETARIAN 7-DAY PLAN — NEW RECIPES
+  { id: 'bajra-roti', name: 'Bajra Roti', sub: 'Rich In Dietary Fiber', phase: 'CE', cat: ['lunch'], kcal: 302, serv: 2, carb: '45g', prot: '11g', fat: '7g',
+    ingredients: [['Bajra/millet flour','60 gm'],['Water','2 tsp'],['Ghee','2 tsp'],['Salt','1/2 tsp']],
+    method: ['In a large mixing bowl, add bajra flour, warm water, salt and ghee.','Knead the dough for 15 minutes.','Make rotis and serve hot.'] },
+
+  { id: 'okra-fry', name: 'Okra Fry', sub: 'Rich In Magnesium And Vitamin C', phase: 'CE', cat: ['dinner'], kcal: 127, serv: 1, carb: '19g', prot: '2g', fat: '5g',
+    ingredients: [['Okra','1 cup'],['Onion thinly sliced','1 no'],['Garlic crushed','2 cloves'],['Turmeric','1/2 tsp'],['Garam masala','1 tsp'],['Ghee','1 tsp'],['Salt and pepper','to taste']],
+    method: ['Cut okra length wise and marinate with turmeric, garam masala, salt and pepper.','In a pan, add ghee and sauté onions until caramelized.','Add crushed garlic and the okra and cook until okra is well cooked and dry.','Serve hot.'] },
+
+  { id: 'mooli-raita', name: 'Mooli Raita', sub: 'Rich In Calcium And Potassium', phase: 'CE', cat: ['breakfast','snack'], kcal: 105, serv: 1, carb: '12g', prot: '8g', fat: '3g',
+    ingredients: [['Grated radish','200 gm'],['Curd','100 gm'],['Cumin powder','1 tsp'],['Coriander leaves','2 sprigs'],['Water','2 tbsp'],['Salt','to taste']],
+    method: ['Add grated radish, cumin powder, salt and coriander leaves in a bowl with curd in it.','Mix and serve cold.'] },
+
+  { id: 'veg-pulao', name: 'Veg Pulao', sub: 'Rich In Fiber And Nutrients', phase: 'CE', cat: ['lunch'], kcal: 380, serv: 2, carb: '72g', prot: '8g', fat: '8g',
+    ingredients: [['Basmati rice','1 cup'],['Mixed vegetables (carrot, peas, beans)','1 cup'],['Onion','1 no'],['Ginger garlic paste','1 tsp'],['Bay leaf','1 no'],['Cloves','3 no'],['Cinnamon','1 inch'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Heat ghee, add whole spices and sauté till fragrant. Add onions and cook until golden.','Add ginger garlic paste and vegetables, sauté for 2 minutes.','Add washed rice, water (1:2 ratio), salt. Bring to boil, cover and cook on low flame for 15 minutes.','Serve hot.'] },
+
+  { id: 'lauki-kofta', name: 'Lauki Kofta', sub: 'High Water Content And Vitamin K', phase: 'CE', cat: ['lunch'], kcal: 222, serv: 2, carb: '37g', prot: '10g', fat: '9g',
+    ingredients: [['Grated bottle gourd','500 gm'],['Carom seeds','1 tsp'],['Amchur powder','1/4 tsp'],['Turmeric powder','1/2 tsp'],['Pepper','1 tsp'],['Hing','1/2 tsp'],['Chopped coriander leaves','2 sprigs'],['Finely chopped ginger','1 tsp'],['Psyllium husk','1 tbsp'],['Homemade curd','50 gm'],['Onion','1/2 no'],['Mustard seeds','1 tsp'],['Cumin seeds','1/2 tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+    method: ['Remove water from grated lauki by pressing in between hands.','Add carom seeds, turmeric powder, coriander leaves, hing, pepper, ginger, amchur powder, psyllium husk and salt.','Make koftas in a pan by brushing some oil. Heat ghee and splutter mustard and cumin seeds. Sauté onion.','Add whisked curd along with some water and stir continuously. Transfer to a bowl and add koftas.','Garnish with coriander leaves and enjoy.'] },
+
+  { id: 'egg-white-scrambled', name: 'Egg White Scrambled', sub: 'High Protein CE Staple', phase: 'CE', cat: ['lunch','breakfast'], kcal: 95, serv: 1, carb: '2g', prot: '15g', fat: '3g',
+    ingredients: [['Egg whites','3 nos'],['Onion chopped','1/4 no'],['Green chilli','1 no'],['Coriander leaves','1 tbsp'],['Turmeric powder','a pinch'],['Pepper powder','1/2 tsp'],['Ghee/butter','1 tsp'],['Salt','to taste']],
+    method: ['Whisk egg whites well with turmeric, salt and pepper.','Heat a pan and grease with ghee/butter. Add onion and chilli and sauté briefly.','Pour egg mixture and scramble gently on medium flame until cooked through.','Garnish with coriander leaves and serve hot.'] },
+
+  { id: 'paneer-palak-burji', name: 'Paneer Palak Burji', sub: 'Rich In Calcium And Iron', phase: 'CE', cat: ['dinner'], kcal: 147, serv: 1, carb: '9g', prot: '7g', fat: '9g',
+    ingredients: [['Paneer crumbled','25 g'],['Onion finely chopped','1/2 no'],['Spinach chopped','30 gm'],['Butter','1/2 tsp'],['Garlic minced','2 cloves'],['Oregano','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['In a pan, add butter and sauté garlic and onions until they are brown.','Add the paneer, oregano, salt and pepper and sauté well.','Now add the spinach and let it cook through.','Serve hot. Enjoy.'] },
+
+  { id: 'beet-chips', name: 'Beet Chips', sub: 'Rich In Iron', phase: 'CE', cat: ['snack','dinner'], kcal: 78, serv: 1, carb: '9g', prot: '1g', fat: '5g',
+    ingredients: [['Beetroot','1 no'],['Lime juice','1 tbs'],['Olive oil','1 tsp'],['Salt and pepper','to taste']],
+    method: ['Thinly slice the beetroot and marinate it with salt, pepper and lime juice for 30 mins.','Toss it with olive oil so it is coated on both sides.','Bake it for 20 min at 170 degrees. Enjoy.','Note: Follow the same recipe for carrot chips.'] },
+
+  { id: 'amaranth-paratha', name: 'Amaranth Paratha', sub: 'Plenty Of Proteins And Fibers', phase: 'CE', cat: ['lunch'], kcal: 332, serv: 2, carb: '49g', prot: '16g', fat: '11g',
+    ingredients: [['Amaranth flour','100 gm'],['Cumin seeds','1 tsp'],['Carom seeds','1 tsp'],['Fenugreek leaves','50 gm'],['Ghee','1 tsp'],['Water','as needed'],['Salt','to taste']],
+    method: ['In a bowl, combine amaranth flour, cumin seeds, carom seeds, fenugreek leaves and salt.','Add enough water to form a soft dough. Let it rest for 15 minutes.','With the help of a rolling pin, roll the dough balls into chapati.','Make rotis on a tawa. Spread some ghee over each paratha.','Serve hot and enjoy.'] },
+
+  { id: 'jain-matar-paneer', name: 'Jain Matar Paneer', sub: 'Rich In Protein', phase: 'CE', cat: ['lunch'], kcal: 281, serv: 2, carb: '16g', prot: '15g', fat: '21g',
+    ingredients: [['Homemade paneer','50 gm'],['Green peas','50 gm'],['Tomato','1 no'],['Green chilli','1/2 no'],['Almonds','3 no'],['Cumin','1 tsp'],['Turmeric powder','1/2 tsp'],['Water','1 cup'],['Homemade curd','1 tbsp'],['Kasurimethi','1 tsp'],['Garam masala','1 tsp'],['Ghee','1 tsp'],['Coriander leaves','1 sprig'],['Salt','to taste']],
+    method: ['Boil tomato, green chilli, and almonds. Season with salt and grind into a smooth paste.','Heat ghee in a kadai, add cumin seeds. Transfer the grinded paste and cook till oil separates. Add water to make curry. Sprinkle garam masala and kasurimethi.','Then add yogurt and give a nice mix. Check for salt.','Add cubed paneer and green peas and finely sprinkle coriander leaves. Enjoy.'] },
+
+  { id: 'pico-salad', name: 'Pico Salad', sub: 'Rich In Vitamin C And Potassium', phase: 'V4', cat: ['dinner','lunch'], kcal: 133, serv: 1, carb: '23g', prot: '5g', fat: '3g',
+    ingredients: [['Tomato','2 no'],['Onion finely chopped','1 no'],['Basil finely chopped','40 gm'],['Garlic thinly sliced','3 cloves'],['Mixed herbs','1 tsp'],['Olive oil','1/2 tsp'],['Salt and pepper','to taste']],
+    method: ['Fry thinly sliced Garlic until it turns yellow in Olive oil and keep aside.','Deseed the tomatoes and cut them into small pieces.','Now mix everything else together, along with the roasted garlic. Enjoy.'] },
+];
+
+// MEAL PLAN DATA — Official 7-day plan from Swetha + Week 2 rotation
+const WEEK1 = [
+  { day: 'MON', date: 1, meals: [
+    { type: 'breakfast', name: 'Oats Porridge', recipeId: 'oats-porridge', kcal: 306 },
+    { type: 'lunch', name: 'Coconut Rice + Buttermilk', recipeId: 'coconut-rice', kcal: 160 },
+    { type: 'snack', name: 'Sprouted Horse Gram Sauté', recipeId: 'sprouted-horse-gram', kcal: 92 },
+    { type: 'dinner', name: 'Cabbage Soup + Egg White Roast', recipeId: 'cabbage-soup', kcal: 267 }
+  ]},
+  { day: 'TUE', date: 2, meals: [
+    { type: 'breakfast', name: 'Quinoa Upma', recipeId: 'quinoa-upma', kcal: 258 },
+    { type: 'snack', name: 'Mint Lassi', recipeId: 'mint-lassi', kcal: 164 },
+    { type: 'lunch', name: 'Lemon Rice + Beetroot Thoran', recipeId: 'lemon-rice', kcal: 267 },
+    { type: 'dinner', name: 'Snake Gourd Sauté + Broccoli Soup', recipeId: 'snake-gourd-saute', kcal: 281 }
+  ]},
+  { day: 'WED', date: 3, meals: [
+    { type: 'breakfast', name: 'Jowar Dosa + Shallot Garlic Chutney', recipeId: 'jowar-dosa', kcal: 506 },
+    { type: 'lunch', name: 'Jeera Rice + Pumpkin Sambar + Egg White Bhurji', recipeId: 'pumpkin-sambar', kcal: 514 },
+    { type: 'dinner', name: 'Lemon Coriander Soup + Cucumber Salad', recipeId: 'lemon-coriander-soup', kcal: 175 }
+  ]},
+  { day: 'THU', date: 4, meals: [
+    { type: 'breakfast', name: 'Sprouted Moong Millet Pongal', recipeId: 'sprouted-moong-millet-pongal', kcal: 296 },
+    { type: 'snack', name: 'Sprouted Lentil Fritters', recipeId: 'sprouted-lentil-fitters', kcal: 132 },
+    { type: 'lunch', name: 'Ghee Rice + Vatha Kozhambu', recipeId: 'vatha-kozhambu', kcal: 219 },
+    { type: 'dinner', name: 'Bottle Gourd Sauté + Boiled Egg Whites', recipeId: 'bottle-gourd-saute', kcal: 167 }
+  ]},
+  { day: 'FRI', date: 5, meals: [
+    { type: 'breakfast', name: 'Bottle Gourd Dosa + Beetroot Coconut Chutney', recipeId: 'bottle-gourd-dosa', kcal: 243 },
+    { type: 'snack', name: 'Mint Lassi', recipeId: 'mint-lassi', kcal: 164 },
+    { type: 'lunch', name: 'Tamarind Rice + Drumstick Leaves Sauté', recipeId: 'tamarind-rice', kcal: 256 },
+    { type: 'dinner', name: 'French Onion Egg Soup + Everyday Salad', recipeId: 'french-onion-egg-soup', kcal: 225 }
+  ]},
+  { day: 'SAT', date: 6, meals: [
+    { type: 'breakfast', name: 'Idiyappam + Coconut Milk', recipeId: 'idiyappam', kcal: 183 },
+    { type: 'snack', name: 'Rice Dumplings', recipeId: 'rice-dumplings', kcal: 214 },
+    { type: 'lunch', name: 'Cucumber Curd Rice + Loaded Veggies', recipeId: 'cucumber-curd-rice', kcal: 269 },
+    { type: 'dinner', name: 'Avocado Soup', recipeId: 'avocado-soup', kcal: 371 }
+  ]},
+  { day: 'SUN', date: 7, meals: [
+    { type: 'breakfast', name: 'Malabar Pathiri + Raw Mango Stew', recipeId: 'malabar-pathiri', kcal: 311 },
+    { type: 'snack', name: 'Drumstick Tikki', recipeId: 'drumstick-tikki', kcal: 152 },
+    { type: 'lunch', name: 'Kadappa + Idiyappam + Curd', recipeId: 'kadappa', kcal: 557 },
+    { type: 'dinner', name: 'Bean Soup', recipeId: 'bean-soup', kcal: 166 }
+  ]},
+];
+
+const WEEK2 = [
+  { day: 'MON', date: 8, meals: [
+    { type: 'breakfast', name: 'Ragi Balls + Tangy Raita', recipeId: 'ragi-balls', kcal: 382 },
+    { type: 'snack', name: 'Sprouted Moong Sauté', recipeId: 'sprouted-moong-saute', kcal: 88 },
+    { type: 'lunch', name: 'No Dal Sambar + Ragi Roti', recipeId: 'no-dal-sambar', kcal: 478 },
+    { type: 'dinner', name: 'Cabbage Soup + Egg White Bhurji', recipeId: 'cabbage-soup', kcal: 307 }
+  ]},
+  { day: 'TUE', date: 9, meals: [
+    { type: 'breakfast', name: 'Sabudana Khichdi', recipeId: 'sabudana-khichdi', kcal: 267 },
+    { type: 'snack', name: 'Black Rice Pudding', recipeId: 'black-rice-pudding', kcal: 228 },
+    { type: 'lunch', name: 'Okra Oats Pulao', recipeId: 'okra-oats-pulao', kcal: 339 },
+    { type: 'dinner', name: 'Broccoli Soup + Snake Gourd Sauté', recipeId: 'broccoli-soup', kcal: 281 }
+  ]},
+  { day: 'WED', date: 10, meals: [
+    { type: 'breakfast', name: 'Berry Chia Pudding', recipeId: 'berry-chia-pudding', kcal: 143 },
+    { type: 'snack', name: 'Lime Juice with Salt + Nuts', recipeId: 'lemon-coriander-soup', kcal: 80 },
+    { type: 'lunch', name: 'Jowar Roti + Dahi Paneer', recipeId: 'dahi-paneer', kcal: 713 },
+    { type: 'dinner', name: 'Lemon Coriander Soup + Cauli Roast', recipeId: 'lemon-coriander-soup', kcal: 166 }
+  ]},
+  { day: 'THU', date: 11, meals: [
+    { type: 'breakfast', name: 'Oats Porridge', recipeId: 'oats-porridge', kcal: 306 },
+    { type: 'snack', name: 'Sprouted Lentil Fritters', recipeId: 'sprouted-lentil-fitters', kcal: 132 },
+    { type: 'lunch', name: 'Tamarind Rice + Drumstick Leaves Sauté', recipeId: 'tamarind-rice', kcal: 256 },
+    { type: 'dinner', name: 'Bottle Gourd Sauté + Carrot Almonds Soup', recipeId: 'bottle-gourd-saute', kcal: 278 }
+  ]},
+  { day: 'FRI', date: 12, meals: [
+    { type: 'breakfast', name: 'Ragi Veggie Cheela + Beetroot Coconut Chutney', recipeId: 'ragi-veggie-cheela', kcal: 330 },
+    { type: 'snack', name: 'Mint Lassi', recipeId: 'mint-lassi', kcal: 164 },
+    { type: 'lunch', name: 'Veg Casserole', recipeId: 'veg-casserole', kcal: 537 },
+    { type: 'dinner', name: 'French Onion Egg Soup + Everyday Salad', recipeId: 'french-onion-egg-soup', kcal: 225 }
+  ]},
+  { day: 'SAT', date: 13, meals: [
+    { type: 'breakfast', name: 'Bottle Gourd Dosa + Raw Mango Stew', recipeId: 'bottle-gourd-dosa', kcal: 267 },
+    { type: 'snack', name: 'Drumstick Tikki', recipeId: 'drumstick-tikki', kcal: 152 },
+    { type: 'lunch', name: 'Coconut Rice + Beetroot Thoran + Curd', recipeId: 'coconut-rice', kcal: 293 },
+    { type: 'dinner', name: 'Palak Methi Saag + Jowar Roti', recipeId: 'palak-methi-saag', kcal: 317 }
+  ]},
+  { day: 'SUN', date: 14, meals: [
+    { type: 'breakfast', name: 'Sabudana Coconut Dosa + Shallot Chutney', recipeId: 'sabudana-coconut-dosa', kcal: 423 },
+    { type: 'snack', name: 'Tangy Raita', recipeId: 'tangy-raita', kcal: 87 },
+    { type: 'lunch', name: 'Rice Matar Fare + No Dal Sambar', recipeId: 'rice-matar-fare', kcal: 402 },
+    { type: 'dinner', name: 'Avocado Soup', recipeId: 'avocado-soup', kcal: 371 }
+  ]},
+];
+
+const AVOID_ITEMS = ['Wheat & wheat products','Milk','Sugar','Dals','Fruits','Egg yolk','Packaged foods','Soy & soy products','Corn & corn products','Peanuts & cashew nuts','Dried fruits (dates, raisins, apricots)','Tender coconut & coconut water'];
+
+const PHASES = [
+  { code: 'CE', name: 'Clean Eating', sub: 'Preparatory Phase', color: '#2d5a27', bg: '#eaf5e8', points: ['No weight loss expected — this is body preparation','Some water loss can happen as inflammation reduces','Avoid all foods in the AVOID list','Continue until you receive your prescribed nutrients','Duration: Until procurement of supplements'] },
+  { code: 'V1', name: 'Detox Phase', sub: 'Elimination Diet Start', color: '#1e7068', bg: '#e0f2ef', points: ['~850 kcal/day — designed to keep you full','Body enters mild ketosis — the fat burning mode','First 2 weeks: only safe vegetables + protein meals','Removes inflammatory messenger molecules from your system','You need: prescribed nutrients + protein powder + chia seeds + psyllium husk'] },
+  { code: 'V2', name: 'Add Back: Dairy & Animal', sub: 'Re-introduction Phase 1', color: '#1565c0', bg: '#e3f2fd', points: ['Add ONE food item back per day','Starts after 2-week V1 wash-off period','Items added in escalating order of intolerance risk','If intolerance detected: eliminate that food permanently','Return to safe foods and wait 2-3 days before adding more'] },
+  { code: 'V3', name: 'Add Back: Nuts & Seeds', sub: 'Re-introduction + Fasting Begins', color: '#6b3fa0', bg: '#f3ecfc', points: ['Continue adding back nuts and seeds one by one','Intermittent fasting guidance begins around this phase','Gradually increase gap between meals','Fasting aids fat burning, cell regeneration, immunity & anti-ageing'] },
+  { code: 'V4', name: 'Add Back: Nightshade Veg', sub: 'Re-introduction Phase 3', color: '#d4722a', bg: '#fdf0e6', points: ['Add back all nightshade vegetables (tomato, brinjal, capsicum, etc.)','Continue testing one item per day','Maintain the same elimination protocol if intolerance found'] },
+  { code: 'V5', name: 'Add Back: Cereals & Fruits', sub: 'Re-introduction Phase 4', color: '#ad1457', bg: '#fce4ec', points: ['Add back cereals and fruits','Continue one item per day protocol','Keep note of any adverse reactions'] },
+  { code: 'V6', name: 'Add Back: Dals, Legumes & Pulses', sub: 'Re-introduction Phase 5', color: '#4e342e', bg: '#efebe9', points: ['Add back dals, legumes and pulses','Use whole form with skin intact','Soak, sprout then use','Best for breakfast or lunch only — avoid at dinner (carbs)'] },
+  { code: '✓', name: 'Maintenance', sub: 'After Reaching Target Weight', color: '#37474f', bg: '#eceff1', points: ['Guides you with maintenance hacks and tricks','Continue to avoid your identified intolerant foods permanently','Keeping inflammation low is the key to sustaining results','Renew subscription monthly after the initial 90 days'] },
+];
+
+// NI 7-DAY EGGETARIAN PLAN DATA
+const NI_DAYS = [
+  { day: 1, title: 'Day One', sub: 'Jeera Rice · Lasooni Paneer · Zucchini Fritters',
+    meals: [
+      { time: '7:00 AM', type: 'drink', label: 'Morning Drink', items: [{ name: 'Black Tea / Coffee / Green Tea (no sugar)', id: null }] },
+      { time: '9:00 AM', type: 'breakfast', label: 'Breakfast', items: [{ name: '🥗 Everyday Salad', id: 'everyday-salad' }] },
+      { time: '11:00 AM', type: 'snack', label: 'Mid-Morning Snack', items: [{ name: 'Nuts (except peanuts & cashews)', id: null }] },
+      { time: '1:00 PM', type: 'lunch', label: 'Lunch', items: [{ name: 'Jeera Rice', id: null }, { name: '🧀 Lasooni Paneer', id: 'lasooni-paneer' }, { name: '🥚 Egg White Omelette', id: 'egg-white-omelette' }] },
+      { time: '5:00 PM', type: 'snack', label: 'Evening Snack', items: [{ name: 'Makhana', id: null }] },
+      { time: '7:00 PM', type: 'dinner', label: 'Dinner', items: [{ name: '🍅 Tomato Soup', id: 'tomato-soup' }, { name: '🥒 Zucchini Fritters', id: 'zucchini-fritters' }] },
+    ]
+  },
+  { day: 2, title: 'Day Two', sub: 'Bajra Khichdi · Mint Lassi · Baingan Bharta · Brussels Roast',
+    meals: [
+      { time: '7:00 AM', type: 'drink', label: 'Morning Drink', items: [{ name: 'Black Tea / Coffee / Green Tea (no sugar)', id: null }] },
+      { time: '9:00 AM', type: 'breakfast', label: 'Breakfast', items: [{ name: '🌾 Bajra Khichdi', id: 'bajra-khichdi' }] },
+      { time: '11:00 AM', type: 'snack', label: 'Mid-Morning', items: [{ name: '🥛 Mint Lassi', id: 'mint-lassi' }] },
+      { time: '1:00 PM', type: 'lunch', label: 'Lunch', items: [{ name: 'Garlic Rice', id: null }, { name: '🍆 Baingan Bharta', id: 'baingan-bharta' }] },
+      { time: '5:00 PM', type: 'snack', label: 'Evening Snack', items: [{ name: 'Cucumber', id: null }] },
+      { time: '7:00 PM', type: 'dinner', label: 'Dinner', items: [{ name: '🥕 Carrot Zucchini Soup', id: 'carrot-zucchini-soup' }, { name: '🌿 Sprouted Brussels Roast', id: 'sprouted-brussels-roast' }] },
+    ]
+  },
+  { day: 3, title: 'Day Three', sub: 'Berry Chia Pudding · Jowar Roti · Dahi Paneer · Cauli Roast',
+    meals: [
+      { time: '7:00 AM', type: 'drink', label: 'Morning Drink', items: [{ name: 'Black Tea / Coffee / Green Tea (no sugar)', id: null }] },
+      { time: '9:00 AM', type: 'breakfast', label: 'Breakfast', items: [{ name: '🫐 Berry Chia Pudding', id: 'berry-chia-pudding' }] },
+      { time: '11:00 AM', type: 'snack', label: 'Mid-Morning', items: [{ name: 'Lime Juice with Salt', id: null }, { name: 'Nuts (except peanuts & cashews)', id: null }] },
+      { time: '1:00 PM', type: 'lunch', label: 'Lunch', items: [{ name: '🫓 Jowar Roti', id: 'jowar-roti' }, { name: '🧀 Dahi Paneer', id: 'dahi-paneer' }] },
+      { time: '5:00 PM', type: 'snack', label: 'Evening Snack', items: [{ name: 'Makhana', id: null }, { name: 'Tea/Coffee (no sweeteners)', id: null }] },
+      { time: '7:00 PM', type: 'dinner', label: 'Dinner', items: [{ name: '🍋 Lemon Coriander Soup', id: 'lemon-coriander-soup' }, { name: '🥦 Cauli Roast', id: 'cauli-roast' }] },
+    ]
+  },
+  { day: 4, title: 'Day Four', sub: 'Poha · Bajra Roti · Palak Methi Saag · Okra Fry',
+    meals: [
+      { time: '7:00 AM', type: 'drink', label: 'Morning Drink', items: [{ name: 'Black Tea / Coffee / Green Tea (no sugar)', id: null }] },
+      { time: '9:00 AM', type: 'breakfast', label: 'Breakfast', items: [{ name: 'Poha (without peanuts)', id: null }] },
+      { time: '11:00 AM', type: 'snack', label: 'Mid-Morning', items: [{ name: 'Buttermilk', id: null }] },
+      { time: '1:00 PM', type: 'lunch', label: 'Lunch', items: [{ name: '🫓 Bajra Roti', id: 'bajra-roti' }, { name: '🌿 Palak Methi Saag', id: 'palak-methi-saag' }, { name: '🥚 Boiled Egg Whites', id: null }] },
+      { time: '5:00 PM', type: 'snack', label: 'Evening Snack', items: [{ name: 'Cucumber', id: null }] },
+      { time: '7:00 PM', type: 'dinner', label: 'Dinner', items: [{ name: '🫛 Okra Fry', id: 'okra-fry' }, { name: '🥕 Carrot Soup', id: 'carrot-soup' }] },
+    ]
+  },
+  { day: 5, title: 'Day Five', sub: 'Ragi Roti · Mooli Raita · Namkeen Chawal · Broccoli Soup',
+    meals: [
+      { time: '7:00 AM', type: 'drink', label: 'Morning Drink', items: [{ name: 'Black Tea / Coffee / Green Tea (no sugar)', id: null }] },
+      { time: '9:00 AM', type: 'breakfast', label: 'Breakfast', items: [{ name: '🫓 Ragi Roti', id: 'ragi-roti' }, { name: '🥣 Mooli Raita', id: 'mooli-raita' }] },
+      { time: '11:00 AM', type: 'snack', label: 'Mid-Morning', items: [{ name: 'Nuts (except peanuts & cashews)', id: null }] },
+      { time: '1:00 PM', type: 'lunch', label: 'Lunch', items: [{ name: '🍚 Namkeen Chawal', id: 'namkeen-chawal' }, { name: '🥚 Egg White Masala Omelette', id: 'egg-white-omelette' }, { name: 'Curd', id: null }] },
+      { time: '5:00 PM', type: 'snack', label: 'Evening Snack', items: [{ name: '🌾 Healthy Jhal Muri', id: 'healthy-jhal-muri' }, { name: 'Tea/Coffee (no sweeteners)', id: null }] },
+      { time: '7:00 PM', type: 'dinner', label: 'Dinner', items: [{ name: '🥦 Broccoli Soup', id: 'broccoli-soup' }] },
+    ]
+  },
+  { day: 6, title: 'Day Six', sub: 'Ragi Veggie Cheela · Veg Pulao · Lauki Kofta · Paneer Palak Burji',
+    meals: [
+      { time: '7:00 AM', type: 'drink', label: 'Morning Drink', items: [{ name: 'Black Tea / Coffee / Green Tea (no sugar)', id: null }] },
+      { time: '9:00 AM', type: 'breakfast', label: 'Breakfast', items: [{ name: '🥞 Ragi Veggie Cheela', id: 'ragi-veggie-cheela' }, { name: '🥣 Tangy Raita', id: 'tangy-raita' }] },
+      { time: '11:00 AM', type: 'snack', label: 'Mid-Morning', items: [{ name: 'Cucumber', id: null }] },
+      { time: '1:00 PM', type: 'lunch', label: 'Lunch', items: [{ name: '🍚 Veg Pulao', id: 'veg-pulao' }, { name: '🫛 Lauki Kofta', id: 'lauki-kofta' }, { name: '🥚 Egg White Scrambled', id: 'egg-white-scrambled' }] },
+      { time: '5:00 PM', type: 'snack', label: 'Evening Snack', items: [{ name: 'Nuts (except peanuts & cashews)', id: null }] },
+      { time: '9:00 PM', type: 'dinner', label: 'Dinner', items: [{ name: '🥬 Paneer Palak Burji', id: 'paneer-palak-burji' }, { name: '🍠 Beet Chips', id: 'beet-chips' }] },
+    ]
+  },
+  { day: 7, title: 'Day Seven', sub: 'Sabudana Khichdi · Amaranth Paratha · Jain Matar Paneer · Pico Salad',
+    meals: [
+      { time: '7:00 AM', type: 'drink', label: 'Morning Drink', items: [{ name: 'Black Tea / Coffee / Green Tea (no sugar)', id: null }] },
+      { time: '9:00 AM', type: 'breakfast', label: 'Breakfast', items: [{ name: '⚪ Sabudana Khichdi', id: 'sabudana-khichdi' }] },
+      { time: '11:00 AM', type: 'snack', label: 'Mid-Morning', items: [{ name: 'Carrot', id: null }, { name: 'Nuts (except peanuts & cashews)', id: null }] },
+      { time: '1:00 PM', type: 'lunch', label: 'Lunch', items: [{ name: '🫓 Amaranth Paratha', id: 'amaranth-paratha' }, { name: '🧀 Jain Matar Paneer', id: 'jain-matar-paneer' }] },
+      { time: '5:00 PM', type: 'snack', label: 'Evening Snack', items: [{ name: 'Makhana', id: null }, { name: 'Tea/Coffee (no sweeteners)', id: null }] },
+      { time: '7:00 PM', type: 'dinner', label: 'Dinner', items: [{ name: '🥬 Cabbage Soup', id: 'cabbage-soup' }, { name: '🍅 Pico Salad', id: 'pico-salad' }] },
+    ]
+  },
+];
+
+// BUILD NI DAY PLAN
+let niActiveDay = 1;
+
+function buildNiDaySelector() {
+  const sel = document.getElementById('ni-day-selector');
+  sel.innerHTML = NI_DAYS.map(d =>
+    `<button class="week-btn${d.day === 1 ? ' active' : ''}" onclick="showNiDay(${d.day}, this)">Day ${d.day}</button>`
+  ).join('');
+}
+
+function showNiDay(dayNum, btn) {
+  niActiveDay = dayNum;
+  document.querySelectorAll('#ni-day-selector .week-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  buildNiDayContent(dayNum);
+}
+
+function buildNiDayContent(dayNum) {
+  const dayData = NI_DAYS.find(d => d.day === dayNum);
+  if (!dayData) return;
+  const container = document.getElementById('ni-day-content');
+
+  const mealTypeDot = (type) => {
+    if (type === 'drink') return 'dot-drink';
+    if (type === 'snack') return 'dot-snack';
+    return '';
+  };
+
+  const rows = dayData.meals.map((meal, i) => {
+    const isLast = i === dayData.meals.length - 1;
+    const items = meal.items.map(item => {
+      if (item.id) {
+        const style = meal.type === 'snack' ? 'snack-item clickable' : 'clickable';
+        return `<span class="ni-item ${style}" onclick="openRecipe('${item.id}')">${item.name} ↗</span>`;
+      }
+      const cls = meal.type === 'drink' ? 'drink-item plain' : meal.type === 'snack' ? 'snack-item plain' : 'plain';
+      return `<span class="ni-item ${cls}">${item.name}</span>`;
+    }).join('');
+
+    return `
+      <div class="ni-meal-row">
+        <div class="ni-time-col"><div class="ni-time-label">${meal.time}</div></div>
+        <div class="ni-connector">
+          <div class="ni-dot ${mealTypeDot(meal.type)}"></div>
+          ${!isLast ? '<div class="ni-line"></div>' : ''}
+        </div>
+        <div class="ni-meal-card" style="margin-bottom:${isLast ? '0' : '8px'}">
+          <div class="ni-meal-type">${meal.label}</div>
+          <div class="ni-meal-items">${items}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="ni-day-header">
+      <div class="ni-day-num">0${dayData.day}</div>
+      <div class="ni-day-info">
+        <h3>${dayData.title}</h3>
+        <p>${dayData.sub}</p>
+      </div>
+    </div>
+    <div class="ni-timeline">${rows}</div>
+    <p class="footer-note">🌿 Click any green item to open full recipe · Plain items have no specific recipe card</p>`;
+}
+
+// BUILD FUNCTIONS
+function buildMealGrid(week, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  week.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    const bg = d.day === 'SUN' ? '#1a4220' : '#2d5a27';
+    card.innerHTML = `<div class="day-header" style="background:${bg}"><div class="day-name">${d.day}</div><div class="day-num">Day ${d.date}</div></div><div class="meal-slots">${d.meals.map(m => `<div class="meal-slot slot-${m.type}" onclick="openRecipe('${m.recipeId}')"><div class="meal-label">${m.type}</div><div class="meal-name">${m.name}</div><div class="meal-kcal">~${m.kcal} kcal</div></div>`).join('')}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function buildRecipeGrid(filter = 'all') {
+  const container = document.getElementById('recipes-grid');
+  const tagColors = { CE: 'tag-ce', V1: 'tag-v1', V2: 'tag-v2', V5: 'tag-v5', V6: 'tag-v6' };
+  let filtered = RECIPES;
+  if (filter === 'CE') filtered = RECIPES.filter(r => r.phase === 'CE');
+  else if (filter === 'V1') filtered = RECIPES.filter(r => r.phase === 'V1');
+  else if (filter === 'V2') filtered = RECIPES.filter(r => ['V2','V5','V6'].includes(r.phase));
+  else if (filter === 'breakfast') filtered = RECIPES.filter(r => r.cat.includes('breakfast'));
+  else if (filter === 'lunch') filtered = RECIPES.filter(r => r.cat.includes('lunch'));
+  else if (filter === 'drinks') filtered = RECIPES.filter(r => r.cat.includes('drinks') || r.cat.includes('snack'));
+  else if (filter === 'soup') filtered = RECIPES.filter(r => r.cat.includes('soup'));
+  else if (filter === 'egg') filtered = RECIPES.filter(r => r.name.toLowerCase().includes('egg') || r.ingredients?.some(i => i[0].toLowerCase().includes('egg')));
+
+  container.innerHTML = filtered.map(r => `
+    <div class="recipe-card" onclick="openRecipe('${r.id}')">
+      <div class="recipe-card-top">
+        <span class="recipe-phase-tag ${tagColors[r.phase] || 'tag-ce'}">${r.phase} Phase</span>
+        <div class="recipe-card-name">${r.name}</div>
+        <div class="recipe-card-sub">${r.sub}</div>
+      </div>
+      <div class="recipe-card-footer">
+        <span class="recipe-kcal">${r.kcal} kcal</span>
+        <span class="recipe-serv">${r.serv} serving${r.serv > 1 ? 's' : ''}</span>
+        <span class="recipe-view-btn">View recipe →</span>
+      </div>
+    </div>`).join('');
+}
+
+function buildAvoidList() {
+  const container = document.getElementById('avoid-grid');
+  container.innerHTML = AVOID_ITEMS.map(item => `<div class="avoid-item">${item}</div>`).join('');
+}
+
+function buildPhaseGuide() {
+  const container = document.getElementById('phase-guide-grid');
+  container.innerHTML = PHASES.map(p => `
+    <div class="phase-card">
+      <div class="phase-card-head" style="background:${p.bg}">
+        <div class="phase-badge" style="background:${p.color}">${p.code}</div>
+        <div><div class="phase-card-title" style="color:${p.color}">${p.name}</div><div class="phase-card-sub">${p.sub}</div></div>
+      </div>
+      <div class="phase-card-body">${p.points.map(pt => `<div class="phase-bullet">${pt}</div>`).join('')}</div>
+    </div>`).join('');
+}
+
+// INTERACTIONS
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function showWeek(num, btn) {
+  document.getElementById('week1').style.display = num === 1 ? 'grid' : 'none';
+  document.getElementById('week2').style.display = num === 2 ? 'grid' : 'none';
+  document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function filterRecipes(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildRecipeGrid(filter);
+}
+
+function openRecipe(id) {
+  const r = RECIPES.find(x => x.id === id);
+  if (!r) return;
+  const phaseColors = { CE: '#2d5a27', V1: '#1e7068', V2: '#1565c0', V5: '#ad1457', V6: '#4e342e' };
+  document.getElementById('modal').querySelector('.modal-head').style.background = phaseColors[r.phase] || '#2d5a27';
+  document.getElementById('modal-phase').textContent = r.phase + ' Phase';
+  document.getElementById('modal-title').textContent = r.name;
+  document.getElementById('modal-subtitle').textContent = r.sub;
+  document.getElementById('modal-stats').innerHTML = `
+    <div class="stat-pill"><div class="stat-val">${r.kcal}</div><div class="stat-lbl">kcal</div></div>
+    <div class="stat-pill"><div class="stat-val">${r.carb}</div><div class="stat-lbl">Carbs</div></div>
+    <div class="stat-pill"><div class="stat-val">${r.prot}</div><div class="stat-lbl">Protein</div></div>
+    <div class="stat-pill"><div class="stat-val">${r.fat}</div><div class="stat-lbl">Fat</div></div>
+    <div class="stat-pill"><div class="stat-val">${r.serv}</div><div class="stat-lbl">Servings</div></div>`;
+  document.getElementById('modal-ingredients').innerHTML = r.ingredients.map(([n,q]) => `<div class="ingredient-row"><span class="ingredient-name">${n}</span><span class="ingredient-qty">${q}</span></div>`).join('');
+  document.getElementById('modal-method').innerHTML = r.method.map((s,i) => `<div class="method-step"><div class="step-num">${i+1}</div><div class="method-text">${s}</div></div>`).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// INIT
+buildMealGrid(WEEK1, 'week1');
+buildMealGrid(WEEK2, 'week2');
+buildRecipeGrid('all');
+buildAvoidList();
+buildPhaseGuide();
+buildNiDaySelector();
+buildNiDayContent(1);
+</script>
+</body>
+</html>
