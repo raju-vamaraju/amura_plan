@@ -59,10 +59,21 @@ main{max-width:900px;margin:0 auto;padding:1.25rem;}
 .pane.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
+/* Week navigation */
+.week-nav{display:flex;align-items:center;justify-content:space-between;background:var(--green);border-radius:var(--radius);padding:.7rem 1rem;margin-bottom:1.1rem;}
+.week-nav-btn{background:rgba(255,255,255,.15);border:none;cursor:pointer;width:32px;height:32px;border-radius:50%;color:#fff;font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;}
+.week-nav-btn:hover:not(:disabled){background:rgba(255,255,255,.25);}
+.week-nav-btn:disabled{opacity:.35;cursor:default;}
+.week-info{text-align:center;flex:1;padding:0 .5rem;}
+.week-info-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.5px;margin-bottom:1px;}
+.week-info-dates{font-size:.9rem;font-weight:500;color:#fff;}
+.week-badge{font-size:.6rem;font-weight:600;background:var(--terra);color:#fff;padding:2px 6px;border-radius:3px;margin-left:5px;vertical-align:middle;}
+.rotation-label{font-size:.62rem;color:rgba(255,255,255,.5);margin-top:2px;}
 /* Week overview — all days */
 .week-all-days{display:flex;flex-direction:column;gap:1.5rem;}
 .day-block{padding-bottom:1.25rem;border-bottom:2px dashed var(--border);}
 .day-block:last-child{border-bottom:none;padding-bottom:0;}
+.day-date{font-size:.72rem;color:var(--hint);margin-left:.35rem;}
 
 /* Day cards */
 .day-header{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.85rem;}
@@ -220,6 +231,7 @@ main{max-width:900px;margin:0 auto;padding:1.25rem;}
 
 <!-- WEEKLY PLAN -->
 <div id="pane-plan" class="pane active">
+  <div id="weekNav"></div>
   <div class="week-all-days" id="allDaysContent"></div>
 </div>
 
@@ -518,7 +530,50 @@ const RECIPES = [
   {name:'Creamy Avocado Dressing',cat:'Chutney',benefit:'Rich in potassium',kcal:130,carb:'10g',prot:'2g',fat:'11g',
    ing:[['Avocado','½ no'],['Cilantro','4 sprigs'],['Lemon','1 no'],['Water','2 tbsp'],['Salt','to taste']],
    method:'Blend avocado, chopped cilantro, lemon juice, little water and salt together. Add some pepper. Enjoy this with fresh cut vegetables.'},
+  {name:'Manathakkali Shallot Fry',cat:'Vegetarian',benefit:'Rich in iron & Vit C',kcal:156,carb:'24g',prot:'5g',fat:'5g',
+   ing:[['Manathakkali dry','1 tbs'],['Shallot roughly chopped','10 nos'],['Garlic','6 nos'],['Raw mango roughly chopped','1 inch'],['Turmeric','½ tsp'],['Coriander powder','1 tsp'],['Ghee','½ tsp'],['Mustard seeds','1 tsp'],['Curry leaves','5 nos'],['Salt','to taste']],
+   method:'In a pan, add ghee, mustard seeds and curry leaves and let the mustard crackle. Now add dry manathakkali and sauté for 4 min. Add shallots, garlic and cut mango and sauté till the shallots are golden brown. Add the turmeric, coriander powder and salt, sauté for another 2 min and serve hot. Enjoy.'},
+  {name:'Mixed Veg Sabji',cat:'Vegetarian',benefit:'Excellent source of Vit A',kcal:159,carb:'23g',prot:'6g',fat:'7g',
+   ing:[['French beans','100gm'],['Zucchini','1 no'],['White pumpkin','50gm'],['Garam masala','1 tsp'],['Cumin seeds','1 tsp'],['Coriander powder','1 tsp'],['Turmeric powder','1 tsp'],['Amchur powder','1 tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+   method:'In a pan, add ghee and splutter cumin seeds. Then add all the veggies and let them cook for few minutes. Add garam masala, coriander powder, turmeric powder, amchur powder and salt. Close and cook for 10 minutes and enjoy.'},
+  {name:'Jain Cabbage Masala',cat:'Vegetarian',benefit:'Packed with Vit C',kcal:127,carb:'16g',prot:'4g',fat:'6g',
+   ing:[['Cabbage','250gm'],['Mustard seeds','1 tsp'],['Cumin seeds','1 tsp'],['Curry leaves','1 sprigs'],['Coriander powder','1 tsp'],['Hing','¼ tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+   method:'Heat ghee in kadai, splutter mustard seeds, cumin seeds and curry leaves. Then add shredded cabbage. Cook for 10 minutes. Then add hing and coriander powder. Season with salt and enjoy.'},
+  {name:'Beetroot Carrot Tikki',cat:'Vegetarian',benefit:'Rich in folates',kcal:165,carb:'26g',prot:'5g',fat:'6g',
+   ing:[['Grated beetroot','50gm'],['Carrot','50gm'],['Chopped spinach','1 tbsp'],['Psyllium husk','1 tbsp'],['Ginger garlic paste','1 tsp'],['Onion','½ no'],['Garam masala','1 tsp'],['Pepper','1 tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+   method:'Steam beetroot, carrot and spinach and mash. Sauté finely chopped onion in ghee and add garam masala. Transfer to a bowl and add mashed veggies, sautéed onions and psyllium husk. Season with salt and pepper. Make tikkis and fry them on tawa. Enjoy.'},
+  {name:'Cucumber Fritter',cat:'Vegetarian',benefit:'High in nutrients',kcal:157,carb:'24g',prot:'5g',fat:'7g',
+   ing:[['Cucumber','1 no'],['Psyllium husk','1 tbsp'],['Cumin powder','1 tsp'],['Amchur powder','1 tsp'],['Turmeric powder','1 tsp'],['Coriander leaves','3 sprigs'],['Asafetida','½ tsp'],['Mustard seeds','1 tsp'],['Ghee','1 tsp'],['Salt','to taste']],
+   method:'Grate cucumber and squeeze the water from it. Do not over squeeze. Transfer grated cucumber in a bowl, add psyllium husk, cumin powder, amchur powder, turmeric powder, chopped coriander leaves and salt. Add a little water to form a thick batter. In a tawa heat some ghee, splutter mustard seeds and add asafetida. Spread batter in tawa like a dosa (thicker consistency). Cook on both sides. Enjoy.'},
 ];
+
+const PLAN_REFS = [
+  [{noon:'Gajar Sabji',pm4:'Beet Chips'},{noon:'Palak Caulirice',pm4:'Guacamole'},{noon:'Zucchini Saute',pm4:'Cucumber Salad'},{noon:'Spinach Caulirice',pm4:'Beetroot Salad'},{noon:'Broccoli Sabji',pm4:'Avocado Salad'},{noon:'Fried Caulirice',pm4:'Zucchini Salad'},{noon:'Chettinad Cauliflower',pm4:'Sirkhe Wala Salad'}],
+  [{noon:'All Veggie Poriyal',pm4:'Carrot Pasta Salad'},{noon:'Broccoli Saag',pm4:'Avocado Salad'},{noon:'Mixed Veg Sabji',pm4:'Cucumber Salad'},{noon:'Mashed Cauliflower',pm4:'Beetroot Salad'},{noon:'Jain Cabbage Masala',pm4:'Zucchini Salad'},{noon:'Raw Mango Stir Fry',pm4:'Sirkhe Wala Salad'},{noon:'Manathakkali Shallot Fry',pm4:'Guacamole'}],
+  [{noon:'Baked Zucchini Carrot',pm4:'Beetroot Salad'},{noon:'Carrot Noodles',pm4:'Avocado Salad'},{noon:'Steamed Cabbage',pm4:'Cucumber Salad'},{noon:'Gobi Kofta',pm4:'Carrot Pasta Salad'},{noon:'Spinach Kebabs',pm4:'Zucchini Salad'},{noon:'Zucchini Broccoli Grill',pm4:'Sirkhe Wala Salad'},{noon:'Beetroot Carrot Tikki',pm4:'Guacamole'}],
+  [{noon:'Crispy Brussel Sprouts',pm4:'Carrot Pasta Salad'},{noon:'Melted Onions',pm4:'Avocado Salad'},{noon:'Broccoli Sabji',pm4:'Cucumber Salad'},{noon:'Palak Caulirice',pm4:'Beetroot Salad'},{noon:'Cucumber Fritter',pm4:'Zucchini Salad'},{noon:'Chettinad Cauliflower',pm4:'Sirkhe Wala Salad'},{noon:'Fried Caulirice',pm4:'Guacamole'}],
+];
+
+function getR(name) { return RECIPES.find(r=>r.name===name); }
+
+function getISOWeek(d) {
+  const date = new Date(d); date.setHours(0,0,0,0);
+  date.setDate(date.getDate()+3-(date.getDay()+6)%7);
+  const w1 = new Date(date.getFullYear(),0,4);
+  return 1+Math.round(((date-w1)/86400000-3+(w1.getDay()+6)%7)/7);
+}
+
+function getMondayOf(offset) {
+  const today = new Date();
+  const day = today.getDay();
+  const diff = day===0 ? -6 : 1-day;
+  const m = new Date(today); m.setDate(today.getDate()+diff+offset*7); m.setHours(0,0,0,0);
+  return m;
+}
+
+function fmtDate(d) { return d.toLocaleDateString('en-AU',{day:'numeric',month:'short'}); }
+
+let weekOffset = 0;
 
 let checkedItems = JSON.parse(localStorage.getItem('amura_shop')||'{}');
 let activeRecipeCat = 'All';
@@ -531,19 +586,54 @@ function switchTab(id, btn) {
   btn.classList.add('active');
 }
 
+function renderWeekNav() {
+  const monday = getMondayOf(weekOffset);
+  const sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
+  const rot = ['A','B','C','D'][getISOWeek(monday)%4];
+  const isNow = weekOffset===0;
+  const label = isNow ? 'This week' : weekOffset===1 ? 'Next week' : weekOffset===-1 ? 'Last week' : weekOffset>0 ? `${weekOffset} weeks ahead` : `${Math.abs(weekOffset)} weeks back`;
+  document.getElementById('weekNav').innerHTML = `
+    <div class="week-nav">
+      <button class="week-nav-btn" onclick="changeWeek(-1)" ${weekOffset<=-2?'disabled':''} aria-label="Previous week">&#8592;</button>
+      <div class="week-info">
+        <div class="week-info-label">${label}</div>
+        <div class="week-info-dates">${fmtDate(monday)} – ${fmtDate(sunday)}${isNow?'<span class="week-badge">Current</span>':''}</div>
+        <div class="rotation-label">Menu rotation ${rot}</div>
+      </div>
+      <button class="week-nav-btn" onclick="changeWeek(1)" ${weekOffset>=4?'disabled':''} aria-label="Next week">&#8594;</button>
+    </div>`;
+}
+
+function changeWeek(dir) {
+  weekOffset += dir;
+  renderAllDays();
+}
+
 function renderAllDays() {
+  renderWeekNav();
+  const monday = getMondayOf(weekOffset);
+  const rotation = getISOWeek(monday) % 4;
+  const plan = PLAN_REFS[rotation];
+  const today = new Date(); today.setHours(0,0,0,0);
+
   const el = document.getElementById('allDaysContent');
   el.innerHTML = DAYS.map((day, i) => {
-    const d = PLAN[i];
-    const total = d.noon.kcal + d.pm4.kcal;
+    const refs = plan[i];
+    const noon = getR(refs.noon);
+    const pm4  = getR(refs.pm4);
+    if (!noon || !pm4) return '';
+    const date = new Date(monday); date.setDate(monday.getDate()+i);
+    const isToday = date.getTime()===today.getTime();
+    const total = noon.kcal + pm4.kcal;
     return `
-      <div class="day-block">
-        <div class="day-header">
-          <h2 class="day-heading">${day}</h2>
-          <span class="day-kcal">${total} kcal total</span>
+      <div class="day-block" id="day-block-${i}">
+        <div class="day-header" ${isToday?'style="border-left:3px solid var(--green);padding-left:.6rem;margin-left:-.6rem;"':''}>
+          <h2 class="day-heading">${day}${isToday?' <span style="font-size:.6rem;font-weight:400;background:var(--green);color:#fff;padding:2px 6px;border-radius:3px;vertical-align:middle;font-family:Outfit,sans-serif">Today</span>':''}</h2>
+          <span class="day-date">${fmtDate(date)}</span>
+          <span class="day-kcal">${total} kcal</span>
         </div>
-        ${mealCardHTML('noon', '12 pm lunch', d.noon, i)}
-        ${mealCardHTML('fourpm', '4 pm snack', d.pm4, i)}
+        ${mealCardHTML('noon','12 pm lunch',noon,i)}
+        ${mealCardHTML('fourpm','4 pm snack',pm4,i)}
       </div>`;
   }).join('');
 }
